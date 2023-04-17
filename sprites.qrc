@@ -1,0 +1,8 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/">
+        <file>sprites/Rock1.png</file>
+        <file>sprites/Rock2.png</file>
+        <file>sprites/*.png</file>
+    </qresource>
+</RCC>
