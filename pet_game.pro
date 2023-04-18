@@ -8,3 +8,6 @@ INSTALLS += target
 
 RESOURCES += \
     sprites.qrc
+
+HEADERS += \
+    Pet.hpp
