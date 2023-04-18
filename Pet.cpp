@@ -50,7 +50,7 @@ PetWidget::PetWidget(QWidget* parent=nullptr, const Pet& pet=Pet())
     visibleRegion = QRegion(boundingRect);
 
     // Set the widget size to match the visible dimensions of the sprite
-    setFixedSize(visibleRegion.boundingRect().size());
+//    setFixedSize(visibleRegion.boundingRect().size());
 
 
     // Create a timer to switch between the two images every 500 milliseconds
