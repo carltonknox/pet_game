@@ -1,17 +1,25 @@
 #include "Pet.hpp"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 // #include <String>
+
+
+
 //---Pet---
 Pet::Pet(const std::string& name, const std::string& description,
         const std::string& sprite1, const std::string& sprite2,
         int rarity)
         : name(name), description(description), rarity(rarity){
+
     std::string s1 = ":sprites/"+sprite1+".png";
     std::string s2 = ":sprites/"+sprite2+".png";
-    // std::cout<<"sprites: "<<s1<<" "<<s2<<"\n";
+
+
     this->sprite1 = QPixmap(QString::fromStdString(s1)).scaled(QSize(100, 100));
     this->sprite2 = QPixmap(QString::fromStdString(s2)).scaled(QSize(100, 100));
-    // std::cout<<"sprite1.size.width: " << this->sprite1.size().width()<< "\n";
+
+
     assert(this->sprite1.size().width()>0);
     if(this->sprite1.isNull() || this->sprite2.isNull())
         throw std::runtime_error("Failed to load images: " + sprite1 +" "+ sprite2);
@@ -30,24 +38,30 @@ Pet::Pet()
 
 PetWidget::PetWidget(QWidget* parent=nullptr, const Pet& pet=Pet())
     : QWidget(parent), pet(pet), sprite_state(0),
-    x(0),y(0),vx(2),vy(2)
+    x(rand() % width()),y(rand() % height()),vx(2),vy(2)
 {
     currentSprite=pet.getSprite1();
+
     // Get the bounding rectangle of the non-transparent pixels
-    // std::cout<<"currentSprite.size().width(): "<<currentSprite.size().width()<<"\n";
     assert(currentSprite.size().width()>0);
     QRect boundingRect = QRegion(currentSprite.createMaskFromColor(QColor(0,0,0),Qt::MaskOutColor)).boundingRect();
+    
     // create visible region
     visibleRegion = QRegion(boundingRect);
 
     // Set the widget size to match the visible dimensions of the sprite
     setFixedSize(visibleRegion.boundingRect().size());
-    // std::cout<<"visibleRegion.boundingRect().size().width(): "<<visibleRegion.boundingRect().size().width()<<"\n";
-    //!!maybe
+
+
     // Create a timer to switch between the two images every 500 milliseconds
+    QTimer* sprite_timer = new QTimer(this);
+    connect(sprite_timer, &QTimer::timeout, this, &PetWidget::updatePet);
+    sprite_timer->start(500);
+
+    // Create a timer to move the image every 20 milliseconds
     QTimer* timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &PetWidget::updatePet);
-    timer->start(500);
+    connect(timer, &QTimer::timeout, this, &PetWidget::bounceImage);
+    timer->start(20);
 }
 
 void PetWidget::paintEvent(QPaintEvent* event){
