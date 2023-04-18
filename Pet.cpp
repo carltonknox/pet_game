@@ -1,37 +1,57 @@
 #include "Pet.hpp"
+#include <iostream>
+// #include <String>
 //---Pet---
-Pet::Pet(const QString& name, const QString& description,
-        const QString& image1, const QString& image2,
-        unsigned rarity)
+Pet::Pet(const std::string& name, const std::string& description,
+        const std::string& sprite1, const std::string& sprite2,
+        int rarity)
         : name(name), description(description), rarity(rarity){
-    
-    sprite1 = QPixmap(":sprites/"+image1).scaled(QSize(100, 100));
-    sprite2 = QPixmap(":sprites/"+image2).scaled(QSize(100, 100));
+    std::string s1 = ":sprites/"+sprite1+".png";
+    std::string s2 = ":sprites/"+sprite2+".png";
+    // std::cout<<"sprites: "<<s1<<" "<<s2<<"\n";
+    this->sprite1 = QPixmap(QString::fromStdString(s1)).scaled(QSize(100, 100));
+    this->sprite2 = QPixmap(QString::fromStdString(s2)).scaled(QSize(100, 100));
+    // std::cout<<"sprite1.size.width: " << this->sprite1.size().width()<< "\n";
+    assert(this->sprite1.size().width()>0);
+    if(this->sprite1.isNull() || this->sprite2.isNull())
+        throw std::runtime_error("Failed to load images: " + sprite1 +" "+ sprite2);
+        
     assert(rarity <100);
+}
+Pet::Pet()
+        :name("Pet Rock"), description("Energetic"), rarity(0) {
+    this->sprite1 = QPixmap(":sprites/Rock1.png").scaled(QSize(100, 100));
+    this->sprite2 = QPixmap(":sprites/Rock2.png").scaled(QSize(100, 100));
+    assert(this->sprite1.size().width()>0);
 }
 
 
 //---PetWidget---
 
-PetWidget::PetWidget(QWidget* parent=nullptr, const Pet& pet)
+PetWidget::PetWidget(QWidget* parent=nullptr, const Pet& pet=Pet())
     : QWidget(parent), pet(pet), sprite_state(0),
-    x(100),y(100),vx(2),vy(2)
+    x(0),y(0),vx(2),vy(2)
 {
+    currentSprite=pet.getSprite1();
     // Get the bounding rectangle of the non-transparent pixels
+    // std::cout<<"currentSprite.size().width(): "<<currentSprite.size().width()<<"\n";
+    assert(currentSprite.size().width()>0);
     QRect boundingRect = QRegion(currentSprite.createMaskFromColor(QColor(0,0,0),Qt::MaskOutColor)).boundingRect();
     // create visible region
     visibleRegion = QRegion(boundingRect);
 
     // Set the widget size to match the visible dimensions of the sprite
-    setFixedSize(m_visibleRegion.boundingRect().size());
-
+    setFixedSize(visibleRegion.boundingRect().size());
+    // std::cout<<"visibleRegion.boundingRect().size().width(): "<<visibleRegion.boundingRect().size().width()<<"\n";
+    //!!maybe
     // Create a timer to switch between the two images every 500 milliseconds
     QTimer* timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &PetWidget::updatePet);
     timer->start(500);
 }
 
-void PetWidget::paintEvent(QPaintEvent* event) {
+void PetWidget::paintEvent(QPaintEvent* event){
+    (void)event;
     QPainter painter(this);
     painter.drawPixmap(x, y, currentSprite);
 }
@@ -70,6 +90,8 @@ void PetWidget::bounceImage(){
         y = height() - visibleRect.bottom();
         vy = -vy;
     }
+
+    // std::cout<<"X: "<<x<<" Y: "<<y<<" sprite: "<<sprite_state<<" left: "<<visibleRect.left()<<" right: "<<visibleRect.right()<<"\n";
 
     // Redraw the widget
     update();
