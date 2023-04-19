@@ -27,15 +27,14 @@ Pet::Pet(const std::string &name, const std::string &description,
 Pet::Pet()
     : name("Pet Rock"), description("Energetic"), rarity(0)
 {
-    this->sprite1 = QPixmap(":sprites/Rock1.png").scaled(QSize(480, 272));
-    this->sprite2 = QPixmap(":sprites/Rock2.png").scaled(QSize(480, 272));
+    this->sprite1 = QPixmap(":sprites/Rock1.png").scaled(QSize(100, 100));
+    this->sprite2 = QPixmap(":sprites/Rock2.png").scaled(QSize(100, 100));
     assert(this->sprite1.size().width() > 0);
 }
 
 //---PetWidget---
 PetWidget::PetWidget(QWidget *parent, const Pet &pet)
-    : QWidget(parent), pet(pet), sprite_state(0),
-      vx(2), vy(2)
+    : QWidget(parent), pet(pet), sprite_state(0)
 {
     this->setStyleSheet("border: 1px solid red;");
 
@@ -63,6 +62,11 @@ PetWidget::PetWidget(QWidget *parent, const Pet &pet)
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &PetWidget::bounceImage);
     timer->start(20);
+
+    x=rand()%width();
+    y=rand()%height();
+    vx=rand()%8-4;
+    vy=rand()%8-4;
 }
 
 void PetWidget::paintEvent(QPaintEvent *event)
