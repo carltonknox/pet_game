@@ -33,7 +33,7 @@ Pet::Pet()
 }
 
 //---PetWidget---
-PetWidget::PetWidget(QWidget *parent = nullptr, const Pet &pet = Pet())
+PetWidget::PetWidget(QWidget *parent, const Pet &pet)
     : QWidget(parent), pet(pet), sprite_state(0),
       vx(2), vy(2)
 {

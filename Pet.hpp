@@ -38,7 +38,7 @@ class PetWidget : public QWidget
 {
 public:
     // Constructor
-    PetWidget(QWidget *parent, const Pet &pet);
+    PetWidget(QWidget *parent=nullptr, const Pet &pet=Pet());
     // PetWidget(QWidget* parent, const Pet& pet, int x, int y);
 
     // Update the pet's animation and repaint the widget
