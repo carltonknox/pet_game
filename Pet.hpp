@@ -9,8 +9,6 @@
 #include <QtGui/QBitmap>
 #include <QtGui/QPaintEvent>
 
-const QRect visibleScreenRect = QRect(0, 0, 1000, 500);
-
 class Pet
 {
 public:

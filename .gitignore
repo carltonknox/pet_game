@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+
+Makefile*
+*.pro.user
+*.stash
+.qtc_clangd
+release
+debug

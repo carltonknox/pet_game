@@ -26,11 +26,11 @@ int main(int argc, char *argv[])
 
     // Create the first pet widget
     PetWidget *petWidget1 = new PetWidget(containerWidget, pets[0]);
-    petWidget1->move(100, 100);
+//    petWidget1->move(100, 100);
 
     // Create the second pet widget
     PetWidget *petWidget2 = new PetWidget(containerWidget, pets[1]);
-    petWidget2->move(100, 100);
+//    petWidget2->move(100, 100);
 
     // Remove any existing layout from the container widget
     containerWidget->setLayout(nullptr);
@@ -40,7 +40,8 @@ int main(int argc, char *argv[])
     petWidget2->setParent(containerWidget);
 
     // Set the size of the container widget and show it
-    containerWidget->setFixedSize(1000, 500);
+//    containerWidget->setFixedSize(1000, 500);
+    containerWidget->setMinimumSize(480, 272);
     containerWidget->show();
 
     return app.exec();
