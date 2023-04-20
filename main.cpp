@@ -11,10 +11,13 @@ int main(int argc, char* argv[]) {
 
     // Create a container widget to hold the pet widgets
     QWidget* containerWidget = new QWidget();
+    containerWidget->setContentsMargins(0, 0, 0, 0);
     //containerWidget->setMinimumSize(480, 272);
     // Create a grid layout to arrange the pet widgets
     QGridLayout* layout = new QGridLayout(containerWidget);
     layout->setSpacing(0);
+    layout->setContentsMargins(0, 0, 0, 0);
+
 
     // Create the widget
     std::vector<Pet> pets;

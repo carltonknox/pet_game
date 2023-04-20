@@ -69,8 +69,8 @@ PetsWidget::PetsWidget(QWidget* parent, const std::vector<Pet> &pets)
 void PetsWidget::paintEvent(QPaintEvent* event){
     (void)event;
     QPainter painter(this);
-    for (int i = 0; i < pets.size(); i++) {
-        painter.drawPixmap(pets[i].x, pets[i].y, pets[i].getSprite());
+    for (auto& pet : pets) {
+        painter.drawPixmap(pet.x, pet.y, pet.getSprite());
     }
 }
 void PetsWidget::updatePets(){
