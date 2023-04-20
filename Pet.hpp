@@ -56,7 +56,7 @@ public:
     // void resizeEvent(QResizeEvent* event);
 
     void addPet(const Pet& pet);
-    void removePet(unsigned pid);
+    void removePet(std::vector<Pet>::iterator pid);
 
 private:
     std::vector<Pet> pets;

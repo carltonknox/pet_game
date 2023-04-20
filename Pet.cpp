@@ -113,7 +113,6 @@ void PetsWidget::addPet(const Pet& pet){
     //add pet to pets vector, and do other stuff
     pets.push_back(pet);
 }
-void PetsWidget::removePet(unsigned pid){
-    //TODO Remove Timers, make timers vector
-    return;
+void PetsWidget::removePet(std::vector<Pet>::iterator pid){
+    pets.erase(pid);
 }
