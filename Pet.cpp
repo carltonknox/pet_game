@@ -52,20 +52,19 @@ void Pet::updateSprite()
 //---PetsWidget---
 
 PetsWidget::PetsWidget(QWidget* parent, const std::vector<Pet> &pets)
-    : QWidget(parent), pets(std::vector<Pet>())
+    : QWidget(parent), pets(pets)
 {
     //Set the widget size to match the visible dimensions of the sprite
 //     setFixedSize(480, 272);
-
-    //add pets
-    for (const auto& pet : pets) {
-        addPet(pet);
-    }
     
     // Create a timer to move the image every 20 milliseconds
     QTimer* timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &PetsWidget::bounceImages);
     timer->start(20);
+    //create a timer to update the pet sprites
+    QTimer* sprite_timer = new QTimer(this);
+    connect(sprite_timer, &QTimer::timeout, this, &PetsWidget::updatePets);
+    sprite_timer->start(500);
 }
 void PetsWidget::paintEvent(QPaintEvent* event){
     (void)event;
@@ -113,9 +112,6 @@ void PetsWidget::bounceImages(){
 void PetsWidget::addPet(const Pet& pet){
     //add pet to pets vector, and do other stuff
     pets.push_back(pet);
-    QTimer* sprite_timer = new QTimer(this);
-    connect(sprite_timer, &QTimer::timeout, this, &PetsWidget::updatePets);
-    sprite_timer->start(500);
 }
 void PetsWidget::removePet(unsigned pid){
     //TODO Remove Timers, make timers vector
