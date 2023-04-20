@@ -8,6 +8,7 @@
 #include <QtCore/QTimer>
 #include <QtGui/QBitmap>
 #include <QtGui/QPaintEvent>
+#include <vector>
 class Pet {
 public:
     // Constructor
@@ -19,35 +20,46 @@ public:
     //functions
     const std::string& getName() const{ return name;};
     const std::string& getDescription() const{return description;};
-    const QPixmap& getSprite1() const{return sprite1;};
-    const QPixmap& getSprite2() const{return sprite2;};
+    // const QPixmap& getSprite1() const{return sprite1;};
+    // const QPixmap& getSprite2() const{return sprite2;};
+    const QPixmap& getSprite() const{return (sprite_state)?sprite2:sprite1;};
     int getRarity() const{return rarity;};
-
+    void updateSprite();
+    const QRect& getVisibleRect() const{return visibleRect;};
+    //public position values
+    int x,y, vx, vy;
 private:
     std::string name;
     std::string description;
     QPixmap sprite1;
     QPixmap sprite2;
     unsigned rarity;//0-99
+    //grapics values
+    bool sprite_state;
+    
+    QRect visibleRect;
 };
-class PetWidget : public QWidget {
+class PetsWidget : public QWidget
+{
 public:
     // Constructor
-    PetWidget(QWidget* parent, const Pet& pet);
+    PetsWidget(QWidget *parent=nullptr, const std::vector<Pet> &pets=std::vector<Pet>());
+    // PetWidget(QWidget* parent, const Pet& pet, int x, int y);
 
     // Update the pet's animation and repaint the widget
-    void updatePet();
-    //bounce
-    void bounceImage();
+    void updatePets();
 
-    void paintEvent(QPaintEvent* event) override;
+    // bounce
+    void bounceImages();
+
+    void paintEvent(QPaintEvent *event) override;
+    // void resizeEvent(QResizeEvent* event);
+
+    void addPet(const Pet& pet);
+    void removePet(unsigned pid);
 
 private:
-    Pet pet;
-    QPixmap currentSprite;
-    QRegion visibleRegion;
-    bool sprite_state;
-    int x,y, vx, vy;
+    std::vector<Pet> pets;
 };
 
 #endif

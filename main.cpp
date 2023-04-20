@@ -11,17 +11,20 @@ int main(int argc, char* argv[]) {
 
     // Create a container widget to hold the pet widgets
     QWidget* containerWidget = new QWidget();
-//    containerWidget->show();
+    //containerWidget->setMinimumSize(480, 272);
     // Create a grid layout to arrange the pet widgets
     QGridLayout* layout = new QGridLayout(containerWidget);
     layout->setSpacing(0);
 
     // Create the widget
-    PetWidget widget1(containerWidget,Pet("AvoCato","A cross between an avocado and a cat?!?!? the scientific comunity will be in shambles","AvoCato1","AvoCato2",0));
-    layout->addWidget(&widget1);
+    std::vector<Pet> pets;
+    pets.push_back(Pet("Pet Rock","Active","Rock1","Rock2",0));
+    pets.push_back(Pet("AvoCato","A cross between an avocado and a cat?!?!? the scientific comunity will be in shambles","AvoCato1","AvoCato2",0));
+    pets.push_back(Pet("Catcus", "cacteye", "CATcus1", "CATcus2", 0));
+    pets.push_back(Pet("the great catsbty", "the great", "Catsby1", "Catsby2", 0));
 
-    PetWidget widget2(containerWidget,Pet("Pet Rock","Active","Rock1","Rock2",0));
-    layout->addWidget(&widget2);
+    PetsWidget barn(containerWidget,pets);
+    layout->addWidget(&barn);
 
     QMainWindow mainWindow;
     mainWindow.setCentralWidget(containerWidget);
