@@ -39,27 +39,5 @@ private:
     
     QRect visibleRect;
 };
-class PetsWidget : public QWidget
-{
-public:
-    // Constructor
-    PetsWidget(QWidget *parent=nullptr, const std::vector<Pet> &pets=std::vector<Pet>());
-    // PetWidget(QWidget* parent, const Pet& pet, int x, int y);
-
-    // Update the pet's animation and repaint the widget
-    void updatePets();
-
-    // bounce
-    void bounceImages();
-
-    void paintEvent(QPaintEvent *event) override;
-    // void resizeEvent(QResizeEvent* event);
-
-    void addPet(const Pet& pet);
-    void removePet(std::vector<Pet>::iterator pid);
-
-private:
-    std::vector<Pet> pets;
-};
-
+std::vector<Pet> generatePets();
 #endif

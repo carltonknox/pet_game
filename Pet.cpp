@@ -49,70 +49,21 @@ void Pet::updateSprite()
     sprite_state = !sprite_state;
 }
 
-//---PetsWidget---
-
-PetsWidget::PetsWidget(QWidget* parent, const std::vector<Pet> &pets)
-    : QWidget(parent), pets(pets)
-{
-    //Set the widget size to match the visible dimensions of the sprite
-//     setFixedSize(480, 272);
-    
-    // Create a timer to move the image every 20 milliseconds
-    QTimer* timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &PetsWidget::bounceImages);
-    timer->start(20);
-    //create a timer to update the pet sprites
-    QTimer* sprite_timer = new QTimer(this);
-    connect(sprite_timer, &QTimer::timeout, this, &PetsWidget::updatePets);
-    sprite_timer->start(500);
-}
-void PetsWidget::paintEvent(QPaintEvent* event){
-    (void)event;
-    QPainter painter(this);
-    for (auto& pet : pets) {
-        painter.drawPixmap(pet.x, pet.y, pet.getSprite());
-    }
-}
-void PetsWidget::updatePets(){
-    for (auto& pet : pets) {
-        pet.updateSprite();
-    }
-    update();
-}
-void PetsWidget::bounceImages(){
-    for (auto& pet : pets) {
-        QRect visibleRect = pet.getVisibleRect();
-        
-        pet.x+=pet.vx;
-        pet.y+=pet.vy;
-
-        // Check bouncing on the left and right edges
-        if (pet.x + visibleRect.left() < 0) {
-            pet.x = -visibleRect.left();
-            pet.vx = -pet.vx;
-        } else if (pet.x + visibleRect.right() > width()) {
-            pet.x = width() - visibleRect.right() - 1;
-            pet.vx = -pet.vx;
-        }
-        // Check bouncing on the top and bottom edges
-        if (pet.y + visibleRect.top() < 0) {
-            pet.y = -visibleRect.top();
-            pet.vy = -pet.vy;
-        } else if (pet.y + visibleRect.bottom() > height()) {
-            // std::cout << "height: " << height();
-            pet.y = height() - visibleRect.bottom() - 1;
-            pet.vy = -pet.vy;
-        }
-
-        
-    }
-    //redraw
-    update();
-}
-void PetsWidget::addPet(const Pet& pet){
-    //add pet to pets vector, and do other stuff
-    pets.push_back(pet);
-}
-void PetsWidget::removePet(std::vector<Pet>::iterator pid){
-    pets.erase(pid);
+std::vector<Pet> generatePets(){
+    std::vector<Pet> pets;
+    pets.push_back(Pet("Pet Rock","Active","Rock1","Rock2",0));
+    pets.push_back(Pet("AvoCato","A cross between an avocado and a cat?!?!? the scientific comunity will be in shambles","AvoCato1","AvoCato2",0));
+    pets.push_back(Pet("Catcus", "cacteye", "CATcus1", "CATcus2", 0));
+    pets.push_back(Pet("The Great Catsbty", "So we pounce on, paws against the current, borne back ceaselessly into the past", "Catsby1", "Catsby2", 0));
+    pets.push_back(Pet("CatBall","Ball","CatBall1","CatBall2",0));
+    pets.push_back(Pet("CatBall","Ball","CatBall3","CatBall4",0));
+    pets.push_back(Pet("CatBall","Ballin'","CatBall5","CatBall6",0));
+    pets.push_back(Pet("CatBall","Baller","CatBall7","CatBall8",0));
+    pets.push_back(Pet("CatBall","Balloon","CatBall9","CatBall10",0));
+    pets.push_back(Pet("CatBall","o","CatBall11","CatBall12",0));
+    pets.push_back(Pet("Cats Mol","it be small","Catsmol1","CatSmol2",0));
+    pets.push_back(Pet("Cats Moll","it be small","CatSmol3","CatSmol4",0));
+    pets.push_back(Pet("Cats Molll","it be small","CatSmol5","CatSmol6",0));
+    pets.push_back(Pet("Cats MoIV","it be small","CatSmol7","CatSmol8",0));
+    return pets;
 }

@@ -1,6 +1,6 @@
 QT += widgets
 
-SOURCES = main_saver.cpp Pet.cpp
+SOURCES = main_saver.cpp Pet.cpp PetsWidget.cpp
 
 # install
 target.path = .
@@ -10,4 +10,5 @@ RESOURCES += \
     sprites.qrc
 
 HEADERS += \
-    Pet.hpp
+    Pet.hpp \
+    PetsWidget.hpp
