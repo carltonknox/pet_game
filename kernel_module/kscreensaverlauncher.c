@@ -25,7 +25,7 @@ static int screenlauncher_init(void){
         printk(KERN_ERR "Failed to execute usermode helper process\n");
         return ret;
     }
-    printk(KERN_ALERT "pid: %d\n",(sub_info->pid));
+    printk(KERN_ALERT "pid: %d\n",(sub_info->pid)); // Does not work, sub_info->pid is incorrect
 
     return 0;
 }
