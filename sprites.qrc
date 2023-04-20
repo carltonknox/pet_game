@@ -1,5 +1,4 @@
-<!DOCTYPE RCC>
-<RCC version="1.0">
+<RCC>
     <qresource prefix="/">
         <file>sprites/AristoCat1.png</file>
         <file>sprites/AristoCat2.png</file>
@@ -71,5 +70,6 @@
         <file>sprites/RightCrack.png</file>
         <file>sprites/Rock1.png</file>
         <file>sprites/Rock2.png</file>
+        <file>sprites/_background.png</file>
     </qresource>
 </RCC>
