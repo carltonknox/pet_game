@@ -36,3 +36,5 @@ pet_game
 .qmake.qstash
 .qmake.stash
 qrc_*.cpp
+*.ko
+*.mod.*
