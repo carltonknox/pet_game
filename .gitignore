@@ -38,3 +38,7 @@ pet_game
 qrc_*.cpp
 *.ko
 *.mod.*
+kernel_module/modules.order
+kernel_module/Module.symvers
+kernel_module/.kscreensaverlauncher*
+pet_game_screensaver
