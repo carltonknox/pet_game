@@ -42,3 +42,10 @@ kernel_module/modules.order
 kernel_module/Module.symvers
 kernel_module/.kscreensaverlauncher*
 pet_game_screensaver
+
+.qtc_clangd/
+.vscode/
+Makefile.Debug
+Makefile.Release
+debug/
+release/
