@@ -6,18 +6,29 @@ Menu::Menu(QWidget *parent, QStackedWidget *stackedWidget)
 {
 
     // Create buttons
-    button1 = new QPushButton("", this);
-    button1->setStyleSheet("qproperty-icon: url(:sprites/MenuPurchase.png);");
-    QSize size(500, 500);
-    button1->setIconSize(size);
-
+    button1 = new QPushButton(QIcon(":sprites/MenuCarton.png"), "", this);
     button2 = new QPushButton(QIcon(":sprites/MenuCrack.png"), "", this);
     button3 = new QPushButton(QIcon(":sprites/MenuCat.png"), "", this);
 
     // Set button size to match the size of the sprites
+    QSize sizeButton(120, 150);
+    QSize sizeIcon(190, 170);
+    QString buttonStyleSheet = "QPushButton {"
+                               "    background-color: transparent;"
+                               "    border: none;"
+                               "}";
 
-    button2->setIconSize(size);
-    button3->setIconSize(size);
+    button1->setIconSize(sizeIcon);
+    button1->setFixedSize(sizeButton);
+    button1->setStyleSheet(buttonStyleSheet);
+
+    button2->setIconSize(sizeIcon);
+    button2->setFixedSize(sizeButton);
+    button2->setStyleSheet(buttonStyleSheet);
+
+    button3->setIconSize(sizeIcon);
+    button3->setFixedSize(sizeButton);
+    button3->setStyleSheet(buttonStyleSheet);
 
     connect(button1, &QPushButton::clicked, this, &Menu::showScreen1);
     connect(button2, &QPushButton::clicked, this, &Menu::showScreen2);
