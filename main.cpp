@@ -6,7 +6,10 @@
 #include <QScrollArea>
 #include "PetsListWidget.hpp"
 #include "PetGridWidget.hpp"
-
+#include "Crack.hpp"
+#include "Purchase.hpp"
+#include "Menu.hpp"
+#include <QStackedWidget>
 int main(int argc, char* argv[]) {
 
 // Set the random seed based on the current time
@@ -41,8 +44,17 @@ int main(int argc, char* argv[]) {
 
 
     // Create the pet grid widget
-    PetGridWidget* petGrid = new PetGridWidget( containerWidget, pets);
-    layout->addWidget(petGrid);
+//     PetGridWidget* petGrid = new PetGridWidget( containerWidget, pets);
+//     layout->addWidget(petGrid);
+
+    QStackedWidget* stack(nullptr);
+    
+//    Crack* crack = new Crack(containerWidget,stack);
+//    layout->addWidget(crack);
+     Purchase* p = new Purchase(containerWidget,stack);
+     layout->addWidget(p);
+//    Menu *m = new Menu(containerWidget,stack);
+//    layout->addWidget(m);
 
     QMainWindow mainWindow;
     mainWindow.setCentralWidget(containerWidget);

@@ -1,6 +1,6 @@
 QT += widgets
 
-SOURCES = main.cpp Pet.cpp PetsListWidget.cpp PetGridWidget.cpp PetsWidget.cpp
+SOURCES = main.cpp Pet.cpp PetsListWidget.cpp PetGridWidget.cpp PetsWidget.cpp Crack.cpp Purchase.cpp Menu.cpp
 
 # install
 target.path = .
@@ -15,4 +15,5 @@ HEADERS += \
     PetsListWidget.hpp \
     PetGridWidget.hpp \
     PetsListWidget.hpp \
-    PetsWidget.hpp
+    PetsWidget.hpp \
+    Crack.hpp Purchase.hpp Menu.hpp
