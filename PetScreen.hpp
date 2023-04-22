@@ -1,5 +1,5 @@
-#ifndef CRACK_HPP
-#define CRACK_HPP
+#ifndef PETSCREEN_HPP
+#define PETSCREEN_HPP
 
 // #include "MainScreen.hpp"
 #include <QWidget>
@@ -7,11 +7,20 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <unistd.h>
+#include <QGridLayout>
+#include <QMainWindow>
+#include <QScrollArea>
 
-class Crack : public QWidget
+#include "Pet.hpp"
+#include "PetsWidget.hpp"
+#include "PetsListWidget.hpp"
+#include "PetGridWidget.hpp"
+
+class PetScreen : public QWidget
 {
 public:
-    Crack(QWidget *parent = nullptr, QStackedWidget *stackedWidget = nullptr);
+    PetScreen(QWidget *parent = nullptr, QStackedWidget *stackedWidget = nullptr);
 
     //function:
     void returnToMain();

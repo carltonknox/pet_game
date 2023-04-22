@@ -1,3 +1,4 @@
+#include "MainScreen.hpp"
 #include "Pet.hpp"
 #include "PetsWidget.hpp"
 #include <unistd.h>
@@ -12,11 +13,14 @@
 #include <QStackedWidget>
 int main(int argc, char* argv[]) {
 
-// Set the random seed based on the current time
-    srand(time(NULL));
-
+int main(int argc, char *argv[])
+{
     QApplication app(argc, argv);
 
+//<<<<<<< mainMenu
+    // Create main window
+    MainScreen mainWindow;
+//============================    
     // Create a container widget to hold the pet widgets
     QWidget* containerWidget = new QWidget();
     containerWidget->setContentsMargins(0, 0, 0, 0);
@@ -55,10 +59,12 @@ int main(int argc, char* argv[]) {
      layout->addWidget(p);
 //    Menu *m = new Menu(containerWidget,stack);
 //    layout->addWidget(m);
-
-    QMainWindow mainWindow;
-    mainWindow.setCentralWidget(containerWidget);
+//========================
+    mainWindow.setFixedSize(480, 272);
+    mainWindow.setContentsMargins(0,0,0,0);
+    // Show main window
     mainWindow.show();
 
+    // Start event loop
     return app.exec();
 }

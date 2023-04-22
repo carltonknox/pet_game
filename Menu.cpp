@@ -35,6 +35,8 @@ Menu::Menu(QWidget *parent, QStackedWidget *stackedWidget)
     connect(button3, &QPushButton::clicked, this, &Menu::showScreen3);
 
     stackedWidget->setCurrentIndex(0);
+    stackedWidget->setContentsMargins(0,0,0,0);
+
 
     // Set up layout for main window
     QHBoxLayout *layout = new QHBoxLayout;
@@ -60,4 +62,5 @@ void Menu::showScreen3()
 {
     qDebug() << "Show Screen 3";
     stackedWidget->setCurrentIndex(3);
+
 }
