@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <cassert>
 
 //---Pet---
 Pet::Pet(const std::string& name, const std::string& description,
