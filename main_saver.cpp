@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
     // Create a container widget to hold the pet widgets
     QWidget* containerWidget = new QWidget();
     containerWidget->setContentsMargins(0, 0, 0, 0);
-    containerWidget->setStyleSheet("background-image: url(:sprites/_background.png);");
+    // containerWidget->setStyleSheet("background-image: url(:sprites/_background.png);");
 
     //containerWidget->setMinimumSize(480, 272);
     // Create a grid layout to arrange the pet widgets

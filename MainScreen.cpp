@@ -7,14 +7,14 @@ MainScreen::MainScreen(QWidget *parent)
     std::vector<Pet> pets = generatePets();
     // Create stacked widget to hold all screens
     stackedWidget = new QStackedWidget(this);
-    
+
     inventory = new Inventory(this, 10, 100);
 
     // Create screens and add them to the stacked widget
-    menu = new Menu(this, stackedWidget);
+    menu = new Menu(this, stackedWidget, pets);
     screen1 = new Purchase(this, stackedWidget, inventory);
     screen2 = new Crack(this, stackedWidget);
-    screen3 = new PetScreen(this, stackedWidget);
+    screen3 = new PetScreen(this, stackedWidget, pets);
 
     // connect(screen1, &Purchase::returnToMain, this, &MainScreen::showScreen1);
     // connect(screen2, &Crack::returnToMain, this, &MainScreen::showScreen2);
@@ -37,5 +37,3 @@ MainScreen::MainScreen(QWidget *parent)
 // {
 //     stackedWidget->setCurrentIndex(0);
 // }
-
-

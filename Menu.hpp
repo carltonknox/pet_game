@@ -8,11 +8,13 @@
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QDebug>
+#include "PetsWidget.hpp"
+#include "Pet.hpp"
 
 class Menu : public QWidget
 {
 public:
-    Menu(QWidget *parent = nullptr, QStackedWidget *stackedWidget = nullptr);
+    Menu(QWidget *parent = nullptr, QStackedWidget *stackedWidget = nullptr, const std::vector<Pet>&pets = std::vector<Pet>());
 
 
 private slots:

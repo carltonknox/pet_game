@@ -20,7 +20,7 @@
 class PetScreen : public QWidget
 {
 public:
-    PetScreen(QWidget *parent = nullptr, QStackedWidget *stackedWidget = nullptr);
+    PetScreen(QWidget *parent, QStackedWidget *stackedWidget,std::vector<Pet>& pets);
 
     //function:
     void returnToMain();
