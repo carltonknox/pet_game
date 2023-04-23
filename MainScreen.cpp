@@ -4,7 +4,7 @@
 MainScreen::MainScreen(QWidget *parent)
     : QWidget(parent)
 {
-
+    std::vector<Pet> pets = generatePets();
     // Create stacked widget to hold all screens
     stackedWidget = new QStackedWidget(this);
     // stackedWidget->addWidget(this);

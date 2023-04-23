@@ -4,7 +4,7 @@
 #include <ctime>
 #include <cassert>
 
-PetScreen::PetScreen(QWidget* parent, QStackedWidget *stackedWidget) 
+PetScreen::PetScreen(QWidget* parent, QStackedWidget *stackedWidget)
     : QWidget(parent), stackedWidget(stackedWidget){
 
     srand(time(NULL));
