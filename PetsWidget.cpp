@@ -19,6 +19,7 @@ PetsWidget::PetsWidget(QWidget* parent, const std::vector<Pet> &pets)
     QTimer* sprite_timer = new QTimer(this);
     connect(sprite_timer, &QTimer::timeout, this, &PetsWidget::updatePets);
     sprite_timer->start(500);
+    this->setStyleSheet("background-image: url(:sprites/_background.png);");
 }
 void PetsWidget::paintEvent(QPaintEvent* event){
     (void)event;
