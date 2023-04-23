@@ -1,3 +1,4 @@
+#include "MainScreen.hpp"
 #include "Pet.hpp"
 #include "PetsWidget.hpp"
 #include <unistd.h>
@@ -6,47 +7,25 @@
 #include <QScrollArea>
 #include "PetsListWidget.hpp"
 #include "PetGridWidget.hpp"
+#include "Crack.hpp"
+#include "Purchase.hpp"
+#include "Menu.hpp"
+#include <QStackedWidget>
 
-int main(int argc, char* argv[]) {
-
-// Set the random seed based on the current time
-    srand(time(NULL));
-
+int main(int argc, char *argv[])
+{
     QApplication app(argc, argv);
 
-    // Create a container widget to hold the pet widgets
-    QWidget* containerWidget = new QWidget();
-    containerWidget->setContentsMargins(0, 0, 0, 0);
-//    containerWidget->setStyleSheet("background-image: url(:sprites/_background.png); background-size: cover;");
 
-    containerWidget->setFixedSize(480, 272);
-    // Create a grid layout to arrange the pet widgets
-     QGridLayout* layout = new QGridLayout(containerWidget);
-     layout->setSpacing(0);
-     layout->setContentsMargins(0, 0, 0, 0);
+    // Create main window
+    MainScreen mainWindow;
 
-    // Create the widget
-    std::vector<Pet> pets = generatePets();
-
-    //Overall Widget to display:
-
-    // Create Pet Bouncing Widget
-//    PetsWidget barn(containerWidget,pets);
-//    barn.setStyleSheet("background-image: url(:sprites/_background.png); background-size: cover;");
-//    layout->addWidget(&barn);
-
-    // Create Pet List Widget
-//    PetsListWidget collection(containerWidget,pets);
-//    layout->addWidget(&collection);
-
-
-    // Create the pet grid widget
-    PetGridWidget* petGrid = new PetGridWidget( containerWidget, pets);
-    layout->addWidget(petGrid);
-
-    QMainWindow mainWindow;
-    mainWindow.setCentralWidget(containerWidget);
+    mainWindow.setFixedSize(480, 272);
+//    mainWindow.setMinimumSize(480,272);
+    mainWindow.setContentsMargins(0,0,0,0);
+    // Show main window
     mainWindow.show();
 
+    // Start event loop
     return app.exec();
 }

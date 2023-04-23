@@ -5,10 +5,14 @@
 #include <QPixmap>
 #include "Pet.hpp"
 #include "PetGridWidget.hpp"
+#include <QScroller>
 #define ICON_SIZE 100
 //#define GRID_LENGTH ((width()>0)?width()/ICON_SIZE:4)
 #define GRID_LENGTH 4
 PetGridWidget::PetGridWidget(QWidget* parent, std::vector<Pet>& pets) : QScrollArea(parent), pets(pets),spriteLabels() {
+    QScroller::grabGesture(this, QScroller::TouchGesture);
+    this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // Create a grid layout to arrange the pet icons
     QWidget* containerWidget = new QWidget(this);
     QGridLayout* layout = new QGridLayout(containerWidget);
