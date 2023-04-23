@@ -14,6 +14,7 @@
 #include "Crack.hpp"
 #include "Purchase.hpp"
 #include "Menu.hpp"
+#include "Inventory.hpp"
 
 
 class MainScreen : public QWidget
@@ -32,6 +33,7 @@ public:
 private:
 
     QStackedWidget *stackedWidget;
+    Inventory *inventory;
     Menu *menu;
     Purchase *screen1;
     Crack *screen2;

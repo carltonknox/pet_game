@@ -7,11 +7,14 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <iostream>
+#include <QPushButton>
+#include "Inventory.hpp"
 
 class Purchase : public QWidget
 {
 public:
-    Purchase(QWidget *parent = nullptr, QStackedWidget *stackedWidget = nullptr);
+    Purchase(QWidget *parent, QStackedWidget *stackedWidget, Inventory *inventory);
 
     //function:
     void returnToMain();
@@ -21,7 +24,9 @@ private slots:
 
 private:
     QStackedWidget *stackedWidget;
-    QLabel* imageLabel;
+    QPushButton *button1;
+    Inventory *inventory;
+    // QLabel* imageLabel;
     QPushButton* returnButton;
 };
 

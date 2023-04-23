@@ -7,11 +7,12 @@ MainScreen::MainScreen(QWidget *parent)
     std::vector<Pet> pets = generatePets();
     // Create stacked widget to hold all screens
     stackedWidget = new QStackedWidget(this);
-    // stackedWidget->addWidget(this);
+    
+    inventory = new Inventory(this, 10, 100);
 
     // Create screens and add them to the stacked widget
     menu = new Menu(this, stackedWidget);
-    screen1 = new Purchase(this, stackedWidget);
+    screen1 = new Purchase(this, stackedWidget, inventory);
     screen2 = new Crack(this, stackedWidget);
     screen3 = new PetScreen(this, stackedWidget);
 
