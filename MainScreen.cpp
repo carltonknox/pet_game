@@ -13,7 +13,7 @@ MainScreen::MainScreen(QWidget *parent)
     menu = new Menu(this, stackedWidget);
     screen1 = new Purchase(this, stackedWidget);
     screen2 = new Crack(this, stackedWidget);
-    screen3 = new PetScreen(this, stackedWidget);
+    screen3 = new PetScreen(this, stackedWidget,pets);
 
     // connect(screen1, &Purchase::returnToMain, this, &MainScreen::showScreen1);
     // connect(screen2, &Crack::returnToMain, this, &MainScreen::showScreen2);
