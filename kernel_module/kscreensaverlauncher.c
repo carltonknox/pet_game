@@ -8,12 +8,51 @@
 #include <asm/uaccess.h> /* copy_from/to_user */
 #include <linux/fs.h> /* everything... */
 #include <linux/uaccess.h>
+#include <linux/fs.h>
+#include <linux/fcntl.h>
+#include <linux/uaccess.h>
+#include <linux/input.h>
+#include <linux/time.h>
+#include <linux/input.h>
+#include <linux/jiffies.h>
+
+
+#define TOUCH_DEV "/dev/input/event0"
+
+struct input_event touch_event;
+int last_touch_timestamp;
+int got_pid;
 
 
 
-static struct task_struct *my_thread;
+
+int get_last_touch_timestamp(void) {
+    struct file *file;
+    struct input_event event;
+    file = filp_open("/dev/input/event0", O_RDONLY, 0);
+    if (IS_ERR(file)) {
+        printk(KERN_ALERT "Failed to open /dev/input/event0\n");
+        return -1;
+    }
+
+    
+    if (vfs_read(file, (void*)(&event), sizeof(event), &file->f_pos) == sizeof(event)) {
+        if (event.type == EV_SYN) {
+            // This is a synchronization event, which indicates the end of an event sequence
+            printk(KERN_INFO "Last input received at time: %ld.%06ld\n", event.__sec, event.__usec);
+        }
+    }
+
+    filp_close(file, NULL);
+    return 0;
+}
+
+
+
+
+
+static struct task_struct *mythread;
 static char *argv[] = { "/root/pet_game_screensaver", NULL };
-static struct subprocess_info *sub_info;
 static pid_t screensaver_pid;
 
 static ssize_t write_pid(struct file *filp,	const char *buf, size_t count, loff_t *f_pos);
@@ -26,6 +65,41 @@ struct file_operations kscreensaver_fops = {
 	open: ss_open,
 	release: ss_release,
 };
+
+static int screensavermanager(void* arg)
+{
+    //run in background, check /dev/input/event0 for user input, then run screensaver if needed
+    int running;
+    int last_touch;
+    struct file *file;
+    struct input_event event;
+
+    file = filp_open("/dev/input/event0", O_RDONLY, 0);
+    if (IS_ERR(file)) {
+        printk(KERN_ALERT "Failed to open /dev/input/event0\n");
+        return -1;
+    }
+    
+
+    got_pid=0;
+    call_usermodehelper(argv[0], argv, NULL, UMH_NO_WAIT);
+    running=1;
+    while(!kthread_should_stop()&&(vfs_read(file, (void*)(&event), sizeof(event), &file->f_pos) == sizeof(event)))
+    {
+        if (event.type == EV_SYN) {
+            // This is a synchronization event, which indicates the end of an event sequence
+            printk(KERN_INFO "Last input received at time: %ld.%06ld\n", event.__sec, event.__usec);
+        }
+
+    }
+    filp_close(file, NULL);
+    if (running&&got_pid) {
+        printk(KERN_INFO "Killing screensaver with pid %d\n", screensaver_pid);
+        send_sig(SIGKILL, pid_task(find_vpid(screensaver_pid),PIDTYPE_PID), 1);
+    }
+    return 0;
+
+}
 
 
 static int screenlauncher_init(void){
@@ -42,27 +116,24 @@ static int screenlauncher_init(void){
 		return result;
 	}
 
-    // call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
-    sub_info = call_usermodehelper_setup(argv[0], argv, NULL, GFP_KERNEL, NULL, NULL, NULL);
-    if (sub_info == NULL) {
-        printk(KERN_ERR "Failed to set up usermode helper process\n");
-        return -ENOMEM;
-    }    
-    result = call_usermodehelper_exec(sub_info, UMH_NO_WAIT);
-    if (result) {
-        printk(KERN_ERR "Failed to execute usermode helper process\n");
-        return result;
+    //setup thread to run user program when idle:
+    mythread = kthread_create(screensavermanager, NULL, "mythread");
+    if (IS_ERR(mythread)) {
+        printk(KERN_ERR "Failed to create kernel thread\n");
+        return PTR_ERR(mythread);
     }
-    printk(KERN_ALERT "pid: %d\n",(sub_info->pid)); // Does not work, sub_info->pid is incorrect
+    wake_up_process(mythread); 
+
+    
+
 
     return 0;
 }
 static void screenlauncher_exit(void){
     printk(KERN_INFO "Exiting screensaverlauncher\n");
-    if (sub_info != NULL) {
-        printk(KERN_INFO "Killing screensaver with pid %d\n", screensaver_pid);
-        send_sig(SIGKILL, pid_task(find_vpid(screensaver_pid),PIDTYPE_PID), 1);
-    }
+    if(!IS_ERR(mythread))
+        kthread_stop(mythread);
+    
     unregister_chrdev(61, "kscreensaverlauncher");
 }
 module_init(screenlauncher_init);
@@ -79,9 +150,11 @@ static ssize_t write_pid(struct file *filp,	const char *buf, size_t count, loff_
 	}
 
     screensaver_pid=input;
+    got_pid=1;
     printk(KERN_INFO "Screensaver with pid %d\n", screensaver_pid);
 
     *f_pos += count;
 
     return count;
 }
+
