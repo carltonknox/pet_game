@@ -25,7 +25,7 @@ private slots:
 
 private:
     QStackedWidget *stackedWidget;
-    QPushButton *button1;
+    QPushButton *purchase_egg;
     Inventory *inventory;
     // QLabel* imageLabel;
     QPushButton* returnButton;

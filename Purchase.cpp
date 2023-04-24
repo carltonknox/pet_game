@@ -5,7 +5,7 @@ Purchase::Purchase(QWidget *parent, QStackedWidget *stackedWidget, Inventory *in
 {
 
     // Create buttons
-    button1 = new QPushButton(QIcon(":sprites/Carton.png"), "", this);
+    purchase_egg = new QPushButton(QIcon(":sprites/Carton.png"), "", this);
 
     // Set button size to match the size of the sprites
     QSize sizeButton(250, 130);
@@ -15,9 +15,9 @@ Purchase::Purchase(QWidget *parent, QStackedWidget *stackedWidget, Inventory *in
                                "    border: none;"
                                "}";
 
-    button1->setIconSize(sizeIcon);
-    button1->setFixedSize(sizeButton);
-    button1->setStyleSheet(buttonStyleSheet);
+    purchase_egg->setIconSize(sizeIcon);
+    purchase_egg->setFixedSize(sizeButton);
+    purchase_egg->setStyleSheet(buttonStyleSheet);
 
     // Create egg and coin count labels
     QLabel *egg_count_label = new QLabel("Egg: 0", this);
@@ -29,8 +29,8 @@ Purchase::Purchase(QWidget *parent, QStackedWidget *stackedWidget, Inventory *in
     egg_count_label->setText(QString("Egg: %1").arg(egg_count));
     coin_count_label->setText(QString("Coin: %1").arg(coin_count));
 
-    // Connect the clicked signal of button1 to a lambda function that updates the egg and coin counts and label texts
-    QObject::connect(button1, &QPushButton::clicked, [=]()
+    // Connect the clicked signal of purchase_egg to a lambda function that updates the egg and coin counts and label texts
+    QObject::connect(purchase_egg, &QPushButton::clicked, [=]()
     {
         if(inventory->removeCoin() == 0) {
             inventory->addEgg();
@@ -50,22 +50,24 @@ Purchase::Purchase(QWidget *parent, QStackedWidget *stackedWidget, Inventory *in
     label->setAlignment(Qt::AlignCenter);
 
     // Create return button
-    returnButton = new QPushButton("Return", this);
-    returnButton->setFixedSize(50, 30);
-    returnButton->move(10, 10);
+
+
+    returnButton = new QPushButton(QIcon(":sprites/Ret.png"), "", this);
+    // returnButton->move(10, 10);
     connect(returnButton, &QPushButton::clicked, this, &Purchase::on_returnButton_clicked);
+    returnButton->setStyleSheet(buttonStyleSheet);
+    
+    // Set button size to match the size of the sprites
+    QSize ret_sizeButton(30, 30);
+    QSize ret_sizeIcon(50, 50);
+    
+    returnButton->setIconSize(ret_sizeIcon);
+    returnButton->setFixedSize(ret_sizeButton);
+        
 
-    // // Create label for egg and coin count
-    // int egg_count = inventory->getEggCount();
-    // std::cout << egg_count << std::endl;
-    // char egg_count_str[20];
-    // sprintf(egg_count_str, "egg: %d", egg_count);
-    // QLabel *egg_count_label = new QLabel(egg_count_str, this);
-    // egg_count_label->setAlignment(Qt::AlignCenter);
-
-    // Create layout for button1 and center it
+    // Create layout for purchase_egg and center it
     QVBoxLayout *layout1 = new QVBoxLayout();
-    layout1->addWidget(button1);
+    layout1->addWidget(purchase_egg);
     layout1->addWidget(label);
     layout1->setAlignment(Qt::AlignCenter);
 
