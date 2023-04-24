@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QStackedWidget>
 #include <iostream>
+#include <string.h>
 #include <QPushButton>
 #include "Inventory.hpp"
 

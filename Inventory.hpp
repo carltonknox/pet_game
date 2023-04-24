@@ -11,9 +11,9 @@ public:
     int getEggCount() const;
     int getCoinCount() const;
     void addEgg();
-    void removeEgg();
+    int removeEgg();
     void addCoin(int count = 1);
-    void removeCoin(int count = 1);
+    int removeCoin();
 
 private:
     int eggCount;

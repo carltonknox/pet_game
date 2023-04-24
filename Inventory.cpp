@@ -16,20 +16,24 @@ void Inventory::addEgg() {
     std::cout << "egg: " << eggCount << std::endl;
 }
 
-void Inventory::removeEgg() {
+int Inventory::removeEgg() {
     eggCount -= 1;
     if (eggCount < 0) {
         eggCount = 0;
+        return -1;
     }
+    return 0;
 }
 
 void Inventory::addCoin(int count) {
     coinCount += count;
 }
 
-void Inventory::removeCoin(int count) {
-    coinCount -= count;
+int Inventory::removeCoin(){
+    coinCount -= 7;
     if (coinCount < 0) {
-        coinCount = 0;
+        coinCount += 7;
+        return -1;
     }
+    return 0;
 }
