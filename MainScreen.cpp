@@ -13,7 +13,7 @@ MainScreen::MainScreen(QWidget *parent)
     // Create screens and add them to the stacked widget
     menu = new Menu(this, stackedWidget, pets);
     screen1 = new Purchase(this, stackedWidget, inventory);
-    screen2 = new Crack(this, stackedWidget);
+    screen2 = new Crack(this, stackedWidget, inventory);
     screen3 = new PetScreen(this, stackedWidget, pets);
 
     // connect(screen1, &Purchase::returnToMain, this, &MainScreen::showScreen1);

@@ -58,8 +58,8 @@ Purchase::Purchase(QWidget *parent, QStackedWidget *stackedWidget, Inventory *in
     returnButton->setStyleSheet(buttonStyleSheet);
     
     // Set button size to match the size of the sprites
-    QSize ret_sizeButton(30, 30);
-    QSize ret_sizeIcon(50, 50);
+    QSize ret_sizeButton(50, 50);
+    QSize ret_sizeIcon(100, 80);
     
     returnButton->setIconSize(ret_sizeIcon);
     returnButton->setFixedSize(ret_sizeButton);
