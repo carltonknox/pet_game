@@ -39,26 +39,22 @@ Menu::Menu(QWidget *parent, QStackedWidget *stackedWidget,const std::vector<Pet>
     // Create pets widget
     PetsWidget* petswidget = new PetsWidget(this, pets);
     petswidget->setMinimumSize(480,272);
-    // Set up layout for main window
-//    QVBoxLayout *mainLayout = new QVBoxLayout;
+    // Set up layouts
+
     QWidget* buttonWidget = new QWidget(this);
     QHBoxLayout* buttonLayout = new QHBoxLayout(buttonWidget);
+    QVBoxLayout *menuLayout = new QVBoxLayout(buttonWidget);
     // Add buttons to button layout
     buttonLayout->addWidget(button1, 0, Qt::AlignCenter);
     buttonLayout->addWidget(button2, 0, Qt::AlignCenter);
     buttonLayout->addWidget(button3, 0, Qt::AlignCenter);
-    // Add button layout and pets widget to main layout
-//    QStackedLayout* stackedLayout = new QStackedLayout;
-//    stackedLayout->addItem(buttonLayout);
-//    stackedLayout->addWidget(petswidget);
-//    stackedLayout->addWidget(buttonWidget);
 
-//    mainLayout->addLayout(buttonLayout);
-//    mainLayout->addWidget(petswidget);
+    menuLayout->addLayout(buttonLayout);
+
     // Set the main layout for this widget
+//    setLayout(menuLayout);
     setLayout(buttonLayout);
-//    stackedLayout->setStackingMode()
-//    setLayout(stackedLayout);
+
 
     connect(button1, &QPushButton::clicked, this, &Menu::showScreen1);
     connect(button2, &QPushButton::clicked, this, &Menu::showScreen2);
