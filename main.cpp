@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
     // SuperBackgroundPainter blah(":sprites/_background.png");
     // mainWindow.setStyleSheet("background-image: url(:sprites/_background.png);");
     // mainWindow.installEventFiler(blah);
+    mainWindow.setStyleSheet("border:none;");
     mainWindow.setContentsMargins(0,0,0,0);
     // Show main window
     mainWindow.show();
