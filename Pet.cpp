@@ -21,7 +21,7 @@ Pet::Pet(const std::string& name, const std::string& description,
     if(this->sprite1.isNull() || this->sprite2.isNull() || !(this->sprite1.size().width()>0&&this->sprite2.size().width()>0))
         throw std::runtime_error("Failed to load images: " + sprite1 +" "+ sprite2);
         
-    assert(rarity <100);
+    assert(rarity <=10);
 
     x=0;
     y=0;
@@ -32,7 +32,7 @@ Pet::Pet(const std::string& name, const std::string& description,
     // visibleRegion = QRegion(boundingRect);
 }
 Pet::Pet()
-        :name("Pet Rock"), description("Energetic"), rarity(0) {
+        :name("Pet Rock"), description("Energetic"), rarity(10) {
     this->sprite1 = QPixmap(":sprites/Rock1.png").scaled(QSize(100, 100));
     this->sprite2 = QPixmap(":sprites/Rock2.png").scaled(QSize(100, 100));
     assert(this->sprite1.size().width()>0);
@@ -54,7 +54,7 @@ std::vector<Pet> generatePets(){
     std::vector<Pet> pets;
     pets.push_back(Pet("AristoCat","A member of the aristoCATcy","AristoCat1","AristoCat2",9));
     pets.push_back(Pet("AvoCato","A cross between an avocado and a cat?!?!? the scientific comunity will be in shambles","AvoCato1","AvoCato2",7));
-    pets.push_back(Pet("Busniss Cat","Money Power Treats","BusniessCat1","BusniessCat1",6));
+    pets.push_back(Pet("Busniss Cat","Money Power Treats","BusinessCat1","BusinessCat1",6));
     pets.push_back(Pet("Pet Rock","Active","Rock1","Rock2",10));
     pets.push_back(Pet("Catcus", "cacteye", "CATcus1", "CATcus2", 8));
     pets.push_back(Pet("CatGPT", "As an meow meow AI, I cannot form emotional attachment to stoopid hooman. Meow~", "CatGpt", "CatGpt", 7));
@@ -77,13 +77,13 @@ std::vector<Pet> generatePets(){
     pets.push_back(Pet("Cat sMoIV","it be small","CatSmol19","CatSmol20",0));
     pets.push_back(Pet("Curdo","It's a Curby! but is it...?","Curdo1","Curdo2",5));
     pets.push_back(Pet("DiscoCat","Y~~M~~C!A!~~~","DiscoCat1","DiscoCat2",5));
-    pets.push_back(Pet("FishCat","Woo is it something rare?! Nvm, it's just Catfish...","FishCat1","FishCat2",5));
+    pets.push_back(Pet("FishCat","Woo is it something rare?! Nvm, it's just Catfish...","FishCat1","FishCat2",4));
     pets.push_back(Pet("FishCat","An abomination","FishCat3","FishCat4",5));
     pets.push_back(Pet("FishCat","There are many fish in the sea, but this is not one of them","FishCat5","FishCat6",5));
     pets.push_back(Pet("FishCat","Fish go meow!","FishCat7","FishCat8",5));
-    pets.push_back(Pet("FishCat","Woo is it something rare?! Nvm, it's just catfish...","FishCat9","FishCat10",5));
+    pets.push_back(Pet("FishCat","Woo is it something rare?! Nvm, it's just catfish...","FishCat9","FishCat10",4));
     pets.push_back(Pet("Jiji","I'm going to put my paws together and pray that you're not serious","Jiji1","Jiji2",7));
-    pets.push_back(Pet("Mona LiCat","The Mona LiCat is a half-length portrait painting by Italian artist LeoMeowdo da Catci","Mono Licat","Mono Licat",9));
+    pets.push_back(Pet("Mona LiCat","The Mona LiCat is a half-length portrait painting by Italian artist LeoMeowdo da Catci","MonaLicat","MonaLicat",9));
     pets.push_back(Pet("Paper Baggie","Biodegradable.","PaperBag","PaperBag",8));
     pets.push_back(Pet("PopCat","We are all insects. Groping towards something terrible or divine. -- Pop Cat","PopCat1","PopCat2",8));
     

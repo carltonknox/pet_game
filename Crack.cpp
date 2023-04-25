@@ -1,14 +1,16 @@
 #include "Crack.hpp"
 
-Crack::Crack(QWidget* parent, QStackedWidget *stackedWidget, Inventory *inventory)
-    : QWidget(parent), stackedWidget(stackedWidget), inventory(inventory)
+Crack::Crack(QWidget* parent, QStackedWidget *stackedWidget, Inventory *inventory, std::vector<Pet>& user_list)
+    : QWidget(parent), stackedWidget(stackedWidget), inventory(inventory), user_list(user_list)
 {
     // generate random pet:
-    int rand_rarity = generateNumber();
-    std::vector<Pet> pet_list = generatePets();
-    Pet random_pet = generateRandomPet(pet_list, rand_rarity);
-
+    rand_rarity = generateNumber();
+    pet_list = generatePets();
+    random_pet = generateRandomPet(pet_list, rand_rarity);
+    // updates between 2 sprites of random pet
+    random_pet_sprite = random_pet.getSprite();
     
+
     // Create buttons
     crackEgg = new QPushButton(QIcon(":sprites/Eggo.png"), "", this);
 
@@ -25,8 +27,8 @@ Crack::Crack(QWidget* parent, QStackedWidget *stackedWidget, Inventory *inventor
     crackEgg->setStyleSheet(buttonStyleSheet);
 
     // Create egg and coin count labels
-    QLabel *egg_count_label = new QLabel("", this);
-    QLabel *coin_count_label = new QLabel("", this);
+    egg_count_label = new QLabel("", this);
+    coin_count_label = new QLabel("", this);
 
     // Update the label texts with the current egg and coin counts
     int egg_count = inventory->getEggCount();
@@ -35,47 +37,22 @@ Crack::Crack(QWidget* parent, QStackedWidget *stackedWidget, Inventory *inventor
     coin_count_label->setText(QString("Coin: %1").arg(coin_count));
 
     // Create label for the text
-    QLabel *label = new QLabel("Click to Crack~", this);
+    label = new QLabel("Click to Crack~", this);
     label->setAlignment(Qt::AlignCenter);
 
-    int loop = 0;
+    loop = 0;
     // Connect the clicked signal of crackEgg to a lambda function that updates the egg and coin counts and label texts
-    QObject::connect(crackEgg, &QPushButton::clicked, [=, &loop]()
-    {
-        loop++;
-
-        if(loop == 1){
-            if(inventory->removeEgg() == 0) {
-                // Change the button sprite when the last egg is removed
-                QPixmap newIcon(":sprites/EggCrack.png");
-                crackEgg->setIcon(QIcon(newIcon));
-
-                // Update the egg and coin counts
-                int egg_count = inventory->getEggCount();
-                int coin_count = inventory->getCoinCount();
-
-                // Update the label texts
-                egg_count_label->setText(QString("Egg: %1").arg(egg_count));
-                coin_count_label->setText(QString("Coin: %1").arg(coin_count)); 
-            } else {
-                loop = 0;
-            }
-        } else if(loop == 2){
-            // randomly generates a pet
-            label->setText(QString("You got a cato~"));
-        } else if(loop == 3){
-            // go back to cracking an egg
-            QPixmap newIcon(":sprites/Eggo.png");
-            crackEgg->setIcon(QIcon(newIcon));
-            label->setText(QString("Click to crack~"));
-            loop = 0;
-        }
-    });
+    connect(crackEgg, &QPushButton::clicked, this, &Crack::crackEggButton);
     
+    QTimer* loop_timer = new QTimer(this);
+    connect(loop_timer, &QTimer::timeout, this, &Crack::updateLoop);
+    loop_timer->start(50);
+
+    QTimer* sprite_timer = new QTimer(this);
+    connect(sprite_timer, &QTimer::timeout, this, &Crack::updatePetSprites);
+    sprite_timer->start(500);
 
     // Create return button
-
-
     returnButton = new QPushButton(QIcon(":sprites/Ret.png"), "", this);
     // returnButton->move(10, 10);
     connect(returnButton, &QPushButton::clicked, this, &Crack::on_returnButton_clicked);
@@ -111,6 +88,7 @@ Crack::Crack(QWidget* parent, QStackedWidget *stackedWidget, Inventory *inventor
 }
 
 void Crack::returnToMain(){
+    loop = 0;
     stackedWidget->setCurrentIndex(0);
 }
 
@@ -119,12 +97,69 @@ void Crack::on_returnButton_clicked() {
     emit returnToMain();
 }
 
+void Crack::crackEggButton(){
+    loop++;
+    if(loop == 1){
+        if(inventory->removeEgg() != 0) {
+            loop = 0;
+        } 
+    } else if(loop == 2){
+        // generate random pet:
+        rand_rarity = generateNumber();
+        random_pet = generateRandomPet(pet_list, rand_rarity);
+        std::cout << "size: " << user_list.size() << std::endl;
+        user_list.push_back(random_pet);
+        std::cout << "name: " << user_list.back().getName() << std::endl;
+    } else if(loop == 3){
+        // go back to cracking an egg
+
+        loop = 0;
+    }
+}
+
+void Crack::updateLoop(){
+    if(loop == 1){
+        // Change the button sprite when the last egg is removed
+        QPixmap newIcon(":sprites/EggCrack.png");
+        crackEgg->setIcon(QIcon(newIcon));
+
+    } else if(loop == 2){
+        // updates between 2 sprites of random pet
+        QString random_pet_name = QString::fromStdString(random_pet.getName());
+        label->setText(QString("You got a ") + random_pet_name);
+
+        random_pet_sprite = random_pet.getSprite();
+        crackEgg->setIcon(QIcon(random_pet_sprite));
+    } else if(loop == 0){
+        QPixmap newIcon(":sprites/Eggo.png");
+        crackEgg->setIcon(QIcon(newIcon));
+        label->setText(QString("Click to crack~"));
+    }
+
+    // Update the egg and coin counts
+    int egg_count = inventory->getEggCount();
+    int coin_count = inventory->getCoinCount();
+
+    // Update the label texts
+    egg_count_label->setText(QString("Egg: %1").arg(egg_count));
+    coin_count_label->setText(QString("Coin: %1").arg(coin_count)); 
+}
+
+void Crack::updatePetSprites()
+{
+    if(loop == 2){
+        // updates between 2 sprites of random pet
+        random_pet.updateSprite();
+
+    } 
+}
+
 int Crack::generateNumber(){
     std::random_device rd;
     std::mt19937 gen(rd());
 
     // Set the probability of generating a 0 to 0.5
-    std::geometric_distribution<int> dist(0.5);
+    std::geometric_distribution<int> dist(0.3);
 
     // Generate a number using the distribution
     int number = dist(gen);
@@ -137,18 +172,17 @@ int Crack::generateNumber(){
 
 Pet Crack::generateRandomPet(std::vector<Pet> petlist, int rarity)
 {
-    std::vvector<Pet> rarity_pets;
+    std::vector<Pet> rarity_pets;
 
-    for(auto pet : pet_list)
+    for(auto pet : petlist)
     {
-        if(pet.rarity = rarity_level){
+        if(pet.getRarity() == rarity){
             rarity_pets.push_back(pet);
         }
     }
 
     if(rarity_pets.empty()){
         std::cout << "not ennough rarities: fix pets list" << std::endl;
-        return;
     }
 
     int random_index = rand() % rarity_pets.size();
