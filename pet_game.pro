@@ -4,7 +4,8 @@ SOURCES = main.cpp \
     Pet.cpp \
     PetsListWidget.cpp PetGridWidget.cpp PetsWidget.cpp \
     MainScreen.cpp Crack.cpp Purchase.cpp PetScreen.cpp Menu.cpp \
-    Inventory.cpp
+    Inventory.cpp \
+    PetInfoWidget.cpp
 
 # install
 target.path = .
@@ -21,7 +22,8 @@ HEADERS += \
     PetsListWidget.hpp \
     PetsWidget.hpp \
     Crack.hpp Purchase.hpp Menu.hpp \
-    Inventory.hpp
+    Inventory.hpp \
+    PetInfoWidget.hpp
 
 RESOURCES += \
     sprites.qrc
