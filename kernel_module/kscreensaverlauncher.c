@@ -15,6 +15,8 @@
 #include <linux/time.h>
 #include <linux/input.h>
 #include <linux/jiffies.h>
+#include <linux/delay.h>
+#include <linux/time.h>
 
 
 #define TOUCH_DEV "/dev/input/event0"
@@ -22,6 +24,8 @@
 struct input_event touch_event;
 int last_touch_timestamp;
 int got_pid;
+
+
 
 
 
@@ -40,6 +44,8 @@ int get_last_touch_timestamp(void) {
         if (event.type == EV_SYN) {
             // This is a synchronization event, which indicates the end of an event sequence
             printk(KERN_INFO "Last input received at time: %ld.%06ld\n", event.__sec, event.__usec);
+            
+
         }
     }
 
@@ -66,30 +72,61 @@ struct file_operations kscreensaver_fops = {
 	release: ss_release,
 };
 
+
+
+
 static int screensavermanager(void* arg)
 {
+    
     //run in background, check /dev/input/event0 for user input, then run screensaver if needed
     int running;
-    int last_touch;
     struct file *file;
     struct input_event event;
+    struct timeval event_timeval;
+    struct timeval current_timeval;
+    do_gettimeofday(&event_timeval);
+    do_gettimeofday(&current_timeval);
 
-    file = filp_open("/dev/input/event0", O_RDONLY, 0);
+    file = filp_open("/dev/input/event0", O_RDONLY | O_NONBLOCK, 0);
     if (IS_ERR(file)) {
         printk(KERN_ALERT "Failed to open /dev/input/event0\n");
         return -1;
     }
     
 
-    got_pid=0;
-    call_usermodehelper(argv[0], argv, NULL, UMH_NO_WAIT);
-    running=1;
-    while(!kthread_should_stop()&&(vfs_read(file, (void*)(&event), sizeof(event), &file->f_pos) == sizeof(event)))
+    running = got_pid=0;
+    // call_usermodehelper(argv[0], argv, NULL, UMH_NO_WAIT);
+    // running=1;    
+    while(!kthread_should_stop())
     {
-        if (event.type == EV_SYN) {
-            // This is a synchronization event, which indicates the end of an event sequence
-            printk(KERN_INFO "Last input received at time: %ld.%06ld\n", event.__sec, event.__usec);
+        if(vfs_read(file, (void*)(&event), sizeof(event), &file->f_pos) == sizeof(event)){
+            if (event.type == EV_SYN) {
+                // This is a synchronization event, which indicates the end of an event sequence
+                printk(KERN_INFO "Last input received at time: %ld.%06ld\n", event.__sec, event.__usec);
+                event_timeval.tv_sec=event.__sec;
+                event_timeval.tv_usec=event.__usec;
+            }
         }
+        else
+            msleep(100);
+
+        do_gettimeofday(&current_timeval);
+        printk(KERN_INFO "time since last press: %ld\n", current_timeval.tv_sec-event_timeval.tv_sec);
+        if(current_timeval.tv_sec-event_timeval.tv_sec >= 15){
+            //start screensaver
+            if(!running){
+                got_pid=0;
+                call_usermodehelper(argv[0], argv, NULL, UMH_NO_WAIT);
+                running=1;
+            }    
+        }
+        else if(running&&got_pid){
+            printk(KERN_INFO "Killing screensaver with pid %d\n", screensaver_pid);
+            send_sig(SIGKILL, pid_task(find_vpid(screensaver_pid),PIDTYPE_PID), 1);
+            running=0;
+            got_pid=0;
+        }
+
 
     }
     filp_close(file, NULL);
