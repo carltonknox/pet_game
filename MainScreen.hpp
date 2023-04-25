@@ -10,6 +10,7 @@
 
 #include <QLabel>
 
+#include "PetsWidget.hpp"
 #include "PetScreen.hpp"
 #include "Crack.hpp"
 #include "Purchase.hpp"

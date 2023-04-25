@@ -5,8 +5,8 @@
 #include <ctime>
 //---PetsWidget---
 
-PetsWidget::PetsWidget(QWidget* parent, const std::vector<Pet> &pets)
-    : QWidget(parent), pets(pets)
+PetsWidget::PetsWidget(QWidget* parent, Inventory* inventory)
+    : QWidget(parent), inventory(inventory)
 {
     //Set the widget size to match the visible dimensions of the sprite
 //     setFixedSize(480, 272);
@@ -15,27 +15,29 @@ PetsWidget::PetsWidget(QWidget* parent, const std::vector<Pet> &pets)
     QTimer* timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &PetsWidget::bounceImages);
     timer->start(20);
-    //create a timer to update the pet sprites
-    QTimer* sprite_timer = new QTimer(this);
-    connect(sprite_timer, &QTimer::timeout, this, &PetsWidget::updatePets);
-    sprite_timer->start(500);
+    
+    // // create a timer to update the pet sprites
+    // QTimer *sprite_timer = new QTimer(this);
+    // connect(sprite_timer, &QTimer::timeout, this, &PetsWidget::updatePets);
+    // sprite_timer->start(500);
+
     this->setStyleSheet("background-image: url(:sprites/_background.png);");
 }
 void PetsWidget::paintEvent(QPaintEvent* event){
     (void)event;
     QPainter painter(this);
-    for (auto& pet : pets) {
+    for (auto& pet : inventory->user_list) {
         painter.drawPixmap(pet.x, pet.y, pet.getSprite());
     }
 }
 void PetsWidget::updatePets(){
-    for (auto& pet : pets) {
-        pet.updateSprite();
-    }
+    // for (auto& pet : inventory->user_list) {
+    //     pet.updateSprite();
+    // }
     update();
 }
 void PetsWidget::bounceImages(){
-    for (auto& pet : pets) {
+    for (auto& pet : inventory->user_list) {
         QRect visibleRect = pet.getVisibleRect();
         
         pet.x+=pet.vx;
@@ -66,8 +68,8 @@ void PetsWidget::bounceImages(){
 }
 void PetsWidget::addPet(const Pet& pet){
     //add pet to pets vector, and do other stuff
-    pets.push_back(pet);
+    inventory->user_list.push_back(pet);
 }
 void PetsWidget::removePet(std::vector<Pet>::iterator pid){
-    pets.erase(pid);
+    inventory->user_list.erase(pid);
 }

@@ -28,7 +28,7 @@ PetGridWidget::PetGridWidget(QWidget *parent, Inventory *inventory) : QScrollAre
 
     QTimer *sprite_timer = new QTimer(this);
     connect(sprite_timer, &QTimer::timeout, this, &PetGridWidget::updatePets);
-    sprite_timer->start(500);
+    sprite_timer->start(100);
 }
 void PetGridWidget::updatePets()
 {
@@ -51,7 +51,7 @@ void PetGridWidget::updatePets()
         }
 
         // Create a label for the pet's sprite
-        inventory->user_list[i].updateSprite();
+        // inventory->user_list[i].updateSprite();
         spriteLabels[i]->setPixmap(inventory->user_list[i].getSprite().scaled(ICON_SIZE, ICON_SIZE, Qt::KeepAspectRatio));
         spriteLabels[i]->setAlignment(Qt::AlignCenter);
 
@@ -76,17 +76,3 @@ void PetGridWidget::updatePets()
     update();
 }
 
-void PetGridWidget::populateGrid()
-{
-    // Add the pet icons to the grid
-    for (unsigned long i = 0; i < inventory->user_list.size(); i++)
-    {
-        // Create a label for the pet's sprite
-        spriteLabels.push_back(new QLabel(this));
-
-        spriteLabels[i]->setPixmap(inventory->user_list[i].getSprite().scaled(ICON_SIZE, ICON_SIZE, Qt::KeepAspectRatio));
-        spriteLabels[i]->setAlignment(Qt::AlignCenter);
-
-        layout->addWidget(spriteLabels[i], i / GRID_LENGTH, i % GRID_LENGTH);
-    }
-}

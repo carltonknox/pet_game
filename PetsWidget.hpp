@@ -9,11 +9,12 @@
 #include <QtGui/QPaintEvent>
 #include <vector>
 #include "Pet.hpp"
+#include "Inventory.hpp"
 class PetsWidget : public QWidget
 {
 public:
     // Constructor
-    PetsWidget(QWidget *parent=nullptr, const std::vector<Pet> &pets=std::vector<Pet>());
+    PetsWidget(QWidget *parent=nullptr, Inventory *inventory=nullptr);
     // PetWidget(QWidget* parent, const Pet& pet, int x, int y);
 
     // Update the pet's animation and repaint the widget
@@ -29,6 +30,6 @@ public:
     void removePet(std::vector<Pet>::iterator pid);
 
 private:
-    std::vector<Pet> pets;
+    Inventory *inventory;
 };
 #endif

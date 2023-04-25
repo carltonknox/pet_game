@@ -34,7 +34,7 @@ Menu::Menu(QWidget *parent, QStackedWidget *stackedWidget, Inventory* inventory)
 
 //    std::vector<Pet> pets=generatePets();
     // Create pets widget
-    PetsWidget* petswidget = new PetsWidget(this, inventory->user_list);
+    PetsWidget* petswidget = new PetsWidget(this, inventory);
     petswidget->setMinimumSize(480,272);
     // Set up layouts
 
