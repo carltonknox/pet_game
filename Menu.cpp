@@ -72,19 +72,19 @@ Menu::Menu(QWidget *parent, QStackedWidget *stackedWidget, Inventory* inventory)
 
 void Menu::showScreen1()
 {
-    qDebug() << "Show Screen 1";
+    // qDebug() << "Show Screen 1";
     stackedWidget->setCurrentIndex(1);
 }
 
 void Menu::showScreen2()
 {
-    qDebug() << "Show Screen 2";
+    // qDebug() << "Show Screen 2";
     stackedWidget->setCurrentIndex(2);
 }
 
 void Menu::showScreen3()
 {
-    qDebug() << "Show Screen 3";
+    // qDebug() << "Show Screen 3";
     stackedWidget->setCurrentIndex(3);
 
 }

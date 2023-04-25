@@ -107,9 +107,9 @@ void Crack::crackEggButton(){
         // generate random pet:
         rand_rarity = generateNumber();
         random_pet = generateRandomPet(pet_list, rand_rarity);
-        std::cout << "size: " << inventory->user_list.size() << std::endl;
+        // std::cout << "size: " << inventory->user_list.size() << std::endl;
         inventory->user_list.push_back(random_pet);
-        std::cout << "name: " << inventory->user_list.back().getName() << std::endl;
+        // std::cout << "name: " << inventory->user_list.back().getName() << std::endl;
     } else if(loop == 3){
         // go back to cracking an egg
 

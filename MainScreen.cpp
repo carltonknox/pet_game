@@ -6,9 +6,10 @@ MainScreen::MainScreen(QWidget *parent)
 {
     std::vector<Pet> pets = generatePets();
     std::vector<Pet> user_list = {};
-    std::cout << "size in main: " << user_list.size() << std::endl;
+    // std::cout << "size in main: " << user_list.size() << std::endl;
     // Create stacked widget to hold all screens
     stackedWidget = new QStackedWidget(this);
+    stackedWidget->setStyleSheet("QStackedWidget { border: none; }");
 
     inventory = new Inventory(this, 10, 100, user_list);
 
@@ -30,6 +31,7 @@ MainScreen::MainScreen(QWidget *parent)
     // Set up layout for main window
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(stackedWidget);
+    layout->setContentsMargins(0,0,0,0);
     setLayout(layout);
 
     // create a timer to update the pet sprites
