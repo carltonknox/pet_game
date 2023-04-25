@@ -4,8 +4,8 @@
 #include <ctime>
 #include <cassert>
 
-PetScreen::PetScreen(QWidget* parent, QStackedWidget *stackedWidget,std::vector<Pet>& pets)
-    : QWidget(parent), stackedWidget(stackedWidget){
+PetScreen::PetScreen(QWidget* parent, QStackedWidget *stackedWidget, Inventory *inventory)
+    : QWidget(parent), stackedWidget(stackedWidget), inventory(inventory){
 
     srand(time(NULL));
 
@@ -13,7 +13,7 @@ PetScreen::PetScreen(QWidget* parent, QStackedWidget *stackedWidget,std::vector<
 //    std::vector<Pet> pets = generatePets();
 
     // Create the pet grid widget
-    PetGridWidget* petGrid = new PetGridWidget( this, pets);
+    PetGridWidget* petGrid = new PetGridWidget( this, inventory);
     petGrid->setContentsMargins(0,0,0,0);
 
     // Create return button

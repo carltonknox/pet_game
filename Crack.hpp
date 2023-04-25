@@ -18,7 +18,7 @@
 class Crack : public QWidget
 {
 public:
-    Crack(QWidget *parent, QStackedWidget *stackedWidget, Inventory *inventory, std::vector<Pet>& user_list);
+    Crack(QWidget *parent, QStackedWidget *stackedWidget, Inventory *inventory);
 
     // function:
     void returnToMain();
@@ -44,7 +44,7 @@ private:
     std::vector<Pet> pet_list;
     Pet random_pet;    
     QPixmap random_pet_sprite;
-    std::vector<Pet> user_list;
+    // std::vector<Pet> user_list;
 
     int loop = 0;
 

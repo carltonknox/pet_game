@@ -5,16 +5,17 @@
 #include <QScrollArea>
 #include <QPixmap>
 #include "Pet.hpp"
+#include "Inventory.hpp"
 #include <vector>
 #include <QLabel>
 
 class PetGridWidget : public QScrollArea {
 public:
-    PetGridWidget(QWidget* parent, std::vector<Pet>& pets);
+    PetGridWidget(QWidget* parent, Inventory* inventory);
     void updatePets();
 
 private:
-    std::vector<Pet> pets;
+    Inventory* inventory;
     std::vector<QLabel*> spriteLabels;
 };
 

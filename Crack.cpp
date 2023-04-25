@@ -1,7 +1,7 @@
 #include "Crack.hpp"
 
-Crack::Crack(QWidget* parent, QStackedWidget *stackedWidget, Inventory *inventory, std::vector<Pet>& user_list)
-    : QWidget(parent), stackedWidget(stackedWidget), inventory(inventory), user_list(user_list)
+Crack::Crack(QWidget* parent, QStackedWidget *stackedWidget, Inventory *inventory)
+    : QWidget(parent), stackedWidget(stackedWidget), inventory(inventory)
 {
     // generate random pet:
     rand_rarity = generateNumber();
@@ -107,9 +107,9 @@ void Crack::crackEggButton(){
         // generate random pet:
         rand_rarity = generateNumber();
         random_pet = generateRandomPet(pet_list, rand_rarity);
-        std::cout << "size: " << user_list.size() << std::endl;
-        user_list.push_back(random_pet);
-        std::cout << "name: " << user_list.back().getName() << std::endl;
+        std::cout << "size: " << inventory->user_list.size() << std::endl;
+        inventory->user_list.push_back(random_pet);
+        std::cout << "name: " << inventory->user_list.back().getName() << std::endl;
     } else if(loop == 3){
         // go back to cracking an egg
 

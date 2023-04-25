@@ -10,11 +10,12 @@
 #include <QDebug>
 #include "PetsWidget.hpp"
 #include "Pet.hpp"
+#include "Inventory.hpp"
 
 class Menu : public QWidget
 {
 public:
-    Menu(QWidget *parent = nullptr, QStackedWidget *stackedWidget = nullptr, const std::vector<Pet>&pets = std::vector<Pet>());
+    Menu(QWidget *parent, QStackedWidget *stackedWidget, Inventory *inventory);
 
 
 private slots:
@@ -23,6 +24,7 @@ private slots:
     void showScreen3();
 
 private:
+    Inventory *inventory;
     QPushButton *button1;
     QPushButton *button2;
     QPushButton *button3;

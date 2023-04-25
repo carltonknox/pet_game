@@ -3,11 +3,13 @@
 
 #include <QObject>
 #include <iostream>
+#include "Pet.hpp"
 
 class Inventory : public QObject {
     Q_OBJECT
 public:
-    Inventory(QObject* parent = nullptr, int initialEggCount = 10, int initialCoinCount = 100);
+    Inventory(QObject* parent, int initialEggCount, int initialCoinCount, std::vector<Pet>& user_list);
+    std::vector<Pet> user_list;
     int getEggCount() const;
     int getCoinCount() const;
     void addEgg();

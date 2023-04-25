@@ -3,12 +3,9 @@
 #include "Pet.hpp"
 #include "PetsWidget.hpp"
 #include <QStackedLayout>
-Menu::Menu(QWidget *parent, QStackedWidget *stackedWidget,const std::vector<Pet>&pets)
-    : QWidget(parent), stackedWidget(stackedWidget)
+Menu::Menu(QWidget *parent, QStackedWidget *stackedWidget, Inventory* inventory)
+    : QWidget(parent), stackedWidget(stackedWidget), inventory(inventory)
 {
-
-
-
     // Create buttons
     button1 = new QPushButton(QIcon(":sprites/MenuCarton.png"), "", this);
     button2 = new QPushButton(QIcon(":sprites/MenuCrack.png"), "", this);
@@ -37,7 +34,7 @@ Menu::Menu(QWidget *parent, QStackedWidget *stackedWidget,const std::vector<Pet>
 
 //    std::vector<Pet> pets=generatePets();
     // Create pets widget
-    PetsWidget* petswidget = new PetsWidget(this, pets);
+    PetsWidget* petswidget = new PetsWidget(this, inventory->user_list);
     petswidget->setMinimumSize(480,272);
     // Set up layouts
 

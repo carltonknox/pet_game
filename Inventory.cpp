@@ -1,7 +1,7 @@
 #include "Inventory.hpp"
 
-Inventory::Inventory(QObject* parent, int initialEggCount, int initialCoinCount)
-    : QObject(parent), eggCount(initialEggCount), coinCount(initialCoinCount) {}
+Inventory::Inventory(QObject* parent, int initialEggCount, int initialCoinCount, std::vector<Pet>& user_list)
+    : QObject(parent), eggCount(initialEggCount), coinCount(initialCoinCount), user_list(user_list){}
 
 int Inventory::getEggCount() const {
     return eggCount;
