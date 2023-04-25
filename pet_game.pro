@@ -21,7 +21,7 @@ HEADERS += \
     PetsListWidget.hpp \
     PetsWidget.hpp \
     Crack.hpp Purchase.hpp Menu.hpp \
-    Inventory.cpp
+    Inventory.hpp
 
 RESOURCES += \
     sprites.qrc

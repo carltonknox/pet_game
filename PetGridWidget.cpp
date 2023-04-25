@@ -20,6 +20,7 @@ PetGridWidget::PetGridWidget(QWidget* parent, Inventory *inventory) : QScrollAre
     layout->setContentsMargins(0, 0, 0, 0);
 
     // Add the pet icons to the grid
+<<<<<<< HEAD
     std::cout << "before for loop" << std::endl;
     std::cout << "user list size: " << inventory->user_list.size() << std::endl;
     for (unsigned long i = 0; i < inventory->user_list.size(); i++) {
@@ -33,6 +34,9 @@ PetGridWidget::PetGridWidget(QWidget* parent, Inventory *inventory) : QScrollAre
         layout->addWidget(spriteLabels[i], i / GRID_LENGTH, i % GRID_LENGTH);
     }
     previous_size=spriteLabels.size();
+=======
+    populateGrid();
+>>>>>>> 1cc444d4c272d6e2fa9814725c9918055f73f6f4
     containerWidget->setLayout(layout);
     setWidgetResizable(true);
     setWidget(containerWidget);
