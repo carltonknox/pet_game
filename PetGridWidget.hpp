@@ -25,12 +25,12 @@ class PetGridWidget : public QScrollArea {
 public:
     PetGridWidget(QWidget* parent, Inventory* inventory);
     void updatePets();
-
+    PetInfoWidget petInfo;
 private:
     Inventory* inventory;
     std::vector<PressLabel*> spriteLabels;
     QGridLayout* layout;
-    PetInfoWidget petInfo;
+    
 public slots:
     void showPetInfo(const Pet& pet);
 

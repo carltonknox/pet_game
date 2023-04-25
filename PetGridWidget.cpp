@@ -6,6 +6,7 @@
 #include "Pet.hpp"
 #include "PetGridWidget.hpp"
 #include <QScroller>
+#include "PetScreen.hpp"
 #define ICON_SIZE 100
 // #define GRID_LENGTH ((width()>0)?width()/ICON_SIZE:4)
 #define GRID_LENGTH 4
@@ -30,6 +31,10 @@ PetGridWidget::PetGridWidget(QWidget *parent, Inventory *inventory) : QScrollAre
     QTimer *sprite_timer = new QTimer(this);
     connect(sprite_timer, &QTimer::timeout, this, &PetGridWidget::updatePets);
     sprite_timer->start(100);
+
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->addWidget(&petInfo);
+
 }
 void PetGridWidget::updatePets()
 {

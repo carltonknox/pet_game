@@ -13,28 +13,44 @@ PetScreen::PetScreen(QWidget* parent, QStackedWidget *stackedWidget, Inventory *
 //    std::vector<Pet> pets = generatePets();
 
     // Create the pet grid widget
-    PetGridWidget* petGrid = new PetGridWidget( this, inventory);
+    petGrid = new PetGridWidget( this, inventory);
     petGrid->setContentsMargins(0,0,0,0);
 
     // Create return button
-    returnButton = new QPushButton("Return", this);
+    QString buttonStyleSheet = "QPushButton {"
+                               "    background-color: transparent;"
+                               "    border: none;"
+                               "}";
+
+    returnButton = new QPushButton(QIcon(":sprites/Ret.png"), "", this);
     connect(returnButton, &QPushButton::clicked, this, &PetScreen::on_returnButton_clicked);
-    returnButton->setContentsMargins(0,0,0,0);
+    returnButton->setStyleSheet(buttonStyleSheet);
+
+    // Set button size to match the size of the sprites
+    QSize ret_sizeButton(50, 50);
+    QSize ret_sizeIcon(100, 80);
+
+    returnButton->setIconSize(ret_sizeIcon);
+    returnButton->setFixedSize(ret_sizeButton);
 
     // Set layout for screen
     QVBoxLayout* layout = new QVBoxLayout;
     layout->setContentsMargins(0,0,0,0);
     layout->addWidget(petGrid);
-    layout->addWidget(returnButton);
+//    layout->addWidget(returnButton);
     setLayout(layout);
     this->setContentsMargins(0,0,0,0);
 }
 
 void PetScreen::returnToMain(){
     stackedWidget->setCurrentIndex(0);
+
 }
 
 void PetScreen::on_returnButton_clicked() {
     // Emit a signal to indicate that the return button was clicked
-    emit returnToMain();
+    if(petGrid->petInfo.isVisible())
+        petGrid->petInfo.hide();
+    else
+        emit returnToMain();
 }

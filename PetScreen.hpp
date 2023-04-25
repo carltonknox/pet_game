@@ -34,6 +34,7 @@ private:
     QStackedWidget *stackedWidget;
     QLabel* imageLabel;
     QPushButton* returnButton;
+    PetGridWidget* petGrid;
 };
 
 #endif // SCREEN1_HPP
