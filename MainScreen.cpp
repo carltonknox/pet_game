@@ -6,7 +6,7 @@ MainScreen::MainScreen(QWidget *parent)
 {
     std::vector<Pet> pets = generatePets();
     std::vector<Pet> user_list = {};
-    std::cout << "size in main: " << user_list.size() << std::endl;
+    // std::cout << "size in main: " << user_list.size() << std::endl;
     // Create stacked widget to hold all screens
     stackedWidget = new QStackedWidget(this);
 

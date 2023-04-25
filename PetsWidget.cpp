@@ -22,7 +22,7 @@ PetsWidget::PetsWidget(QWidget* parent, Inventory* inventory)
     // sprite_timer->start(500);
 
     // this->setFixedSize(480,272);
-    this->setStyleSheet("background-image: url(:sprites/_background.png); background-size: 100% 100%;");
+    this->setStyleSheet("background-image: url(:sprites/_background.png);");
 }
 void PetsWidget::paintEvent(QPaintEvent* event){
     (void)event;

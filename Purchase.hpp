@@ -24,11 +24,16 @@ private slots:
     void on_returnButton_clicked();
 
 private:
+    QLabel *egg_count_label;
+    QLabel *coin_count_label; 
+
     QStackedWidget *stackedWidget;
     QPushButton *purchase_egg;
     Inventory *inventory;
     // QLabel* imageLabel;
     QPushButton* returnButton;
+
+    void updateInventory();
 };
 
 #endif // SCREEN1_HPP
