@@ -17,6 +17,8 @@ public:
 private:
     Inventory* inventory;
     std::vector<QLabel*> spriteLabels;
+    void populateGrid();
+    QGridLayout* layout;
 };
 
 #endif
