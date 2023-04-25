@@ -21,7 +21,7 @@ PetsWidget::PetsWidget(QWidget* parent, Inventory* inventory)
     // connect(sprite_timer, &QTimer::timeout, this, &PetsWidget::updatePets);
     // sprite_timer->start(500);
 
-    this->setStyleSheet("background-image: url(:sprites/_background.png);");
+    this->setStyleSheet("background-image: url(:sprites/_background.png); background-size: cover;");
 }
 void PetsWidget::paintEvent(QPaintEvent* event){
     (void)event;
