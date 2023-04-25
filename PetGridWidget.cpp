@@ -7,46 +7,51 @@
 #include "PetGridWidget.hpp"
 #include <QScroller>
 #define ICON_SIZE 100
-//#define GRID_LENGTH ((width()>0)?width()/ICON_SIZE:4)
+// #define GRID_LENGTH ((width()>0)?width()/ICON_SIZE:4)
 #define GRID_LENGTH 4
-PetGridWidget::PetGridWidget(QWidget* parent, Inventory *inventory) : QScrollArea(parent), inventory(inventory),spriteLabels() {
+PetGridWidget::PetGridWidget(QWidget *parent, Inventory *inventory) : QScrollArea(parent), inventory(inventory), spriteLabels()
+{
     QScroller::grabGesture(this, QScroller::TouchGesture);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // Create a grid layout to arrange the pet icons
-    QWidget* containerWidget = new QWidget(this);
+    QWidget *containerWidget = new QWidget(this);
     layout = new QGridLayout(containerWidget);
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
 
     // Add the pet icons to the grid
-
     updatePets();
-
+    
     containerWidget->setLayout(layout);
     setWidgetResizable(true);
     setWidget(containerWidget);
 
-    QTimer* sprite_timer = new QTimer(this);
+    QTimer *sprite_timer = new QTimer(this);
     connect(sprite_timer, &QTimer::timeout, this, &PetGridWidget::updatePets);
     sprite_timer->start(500);
 }
-void PetGridWidget::updatePets(){
+void PetGridWidget::updatePets()
+{
     // Update the sprite labels and add/remove sprite labels from the grid layout
     int numPets = inventory->user_list.size();
     int numSpriteLabels = spriteLabels.size();
 
-    for (int i = 0; i < numPets; i++) {
-        if (i >= numSpriteLabels) {
+    for (int i = 0; i < numPets; i++)
+    {
+        if (i >= numSpriteLabels)
+        {
             // Add a new sprite label to the grid layout
             spriteLabels.push_back(new QLabel(this));
             spriteLabels.back()->setAlignment(Qt::AlignCenter);
         }
-        else{
-            if(numPets!=numSpriteLabels)
+        else
+        {
+            if (numPets != numSpriteLabels)
                 layout->removeWidget(spriteLabels[i]);
         }
 
+        // Create a label for the pet's sprite
         inventory->user_list[i].updateSprite();
         spriteLabels[i]->setPixmap(inventory->user_list[i].getSprite().scaled(ICON_SIZE, ICON_SIZE, Qt::KeepAspectRatio));
 
@@ -54,13 +59,13 @@ void PetGridWidget::updatePets(){
             layout->addWidget(spriteLabels[i], i / GRID_LENGTH, i % GRID_LENGTH);
     }
 
-    for (int i = numPets; i < numSpriteLabels; i++) {
+    for (int i = numPets; i < numSpriteLabels; i++)
+    {
         // Remove sprite labels from the grid layout
-        QLabel* label = spriteLabels.back();
+        QLabel *label = spriteLabels.back();
         spriteLabels.pop_back();
         delete label;
     }
-
 
     update();
 }
