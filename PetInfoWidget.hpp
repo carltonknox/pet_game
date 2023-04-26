@@ -5,7 +5,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QGraphicsView>
-class PetInfoWidget : public QWidget
+#include <QScrollArea>
+class PetInfoWidget : public QScrollArea
 {
 public:
     PetInfoWidget(QWidget *parent = nullptr);
@@ -17,5 +18,6 @@ private:
     QLabel *rarityLabel;
     // Create a graphics view for the pet's sprite
     QGraphicsView *spriteView;
+    void sell();//sell current pet
 };
 #endif

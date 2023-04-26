@@ -25,6 +25,7 @@ PetScreen::PetScreen(QWidget* parent, QStackedWidget *stackedWidget, Inventory *
     returnButton = new QPushButton(QIcon(":sprites/Ret.png"), "", this);
     connect(returnButton, &QPushButton::clicked, this, &PetScreen::on_returnButton_clicked);
     returnButton->setStyleSheet(buttonStyleSheet);
+    returnButton->move(10,10);
 
     // Set button size to match the size of the sprites
     QSize ret_sizeButton(50, 50);
