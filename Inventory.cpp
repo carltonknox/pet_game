@@ -3,6 +3,17 @@
 Inventory::Inventory(QObject* parent, int initialEggCount, int initialCoinCount, std::vector<Pet>& user_list)
     : QObject(parent), eggCount(initialEggCount), coinCount(initialCoinCount), user_list(user_list){}
 
+
+void Inventory::setEggCount(int egg) {
+    eggCount = egg;
+    // std::cout << "egg count set to " << eggCount << std::endl;
+}
+
+void Inventory::setCoinCount(int coin) {
+    coinCount = coin;
+    // std::cout << "coin count set to " << coinCount << std::endl;
+}
+
 int Inventory::getEggCount() const {
     return eggCount;
 }

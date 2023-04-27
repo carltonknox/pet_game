@@ -8,10 +8,11 @@
 
 
 
-class Inventory : public QObject {
+class Inventory : public QObject
+{
     Q_OBJECT
 public:
-    Inventory(QObject* parent, int initialEggCount, int initialCoinCount, std::vector<Pet>& user_list);
+    Inventory(QObject *parent, int initialEggCount, int initialCoinCount, std::vector<Pet> &user_list);
     std::vector<Pet> user_list;
     int getEggCount() const;
     int getCoinCount() const;
@@ -20,6 +21,9 @@ public:
     void addCoin(int count = 1);
     int removeCoin();
     QReadWriteLock mutex;
+
+    void setEggCount(int egg);
+    void setCoinCount(int coin);
 
 private:
     int eggCount;
