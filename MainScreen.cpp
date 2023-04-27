@@ -4,14 +4,20 @@
 MainScreen::MainScreen(QWidget *parent)
     : QWidget(parent)
 {
-    std::vector<Pet> pets = generatePets();
-    std::vector<Pet> user_list = {};
-    // std::cout << "size in main: " << user_list.size() << std::endl;
+    pets = generatePets();
+    user_list = {};
+    inventory = new Inventory(this, 10, 100, user_list);
+
+    // check if it's the first time program started
+    loadInventoryFromFile(inventory);
+
+    // std::cout << "current egg count: " << inventory->getEggCount() << std::endl;
+    // std::cout << "current coin count: " << inventory->getCoinCount() << std::endl;
+    // std::cout << "current user list size: " << inventory->user_list.size() << std::endl;
+
     // Create stacked widget to hold all screens
     stackedWidget = new QStackedWidget(this);
     stackedWidget->setStyleSheet("QStackedWidget { border: none; }");
-
-    inventory = new Inventory(this, 10, 100, user_list);
 
     // Create screens and add them to the stacked widget
     menu = new Menu(this, stackedWidget, inventory);
@@ -31,24 +37,60 @@ MainScreen::MainScreen(QWidget *parent)
     // Set up layout for main window
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(stackedWidget);
-    layout->setContentsMargins(0,0,0,0);
+    layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 
     // create a timer to update the pet sprites
     QTimer *sprite_timer = new QTimer(this);
     connect(sprite_timer, &QTimer::timeout, [=]
-    {
-        for (auto& pet : inventory->user_list) {
-            pet.updateSprite();
-        }
-        // std::cout << "timer connect" << std::endl;
-    });
+            {
+                for (auto &pet : inventory->user_list)
+                {
+                    pet.updateSprite();
+                }
+                // std::cout << "timer connect" << std::endl;
+            });
     sprite_timer->start(500);
 
     stackedWidget->show();
+
+    // Create a signal handler for when the program is about to quit
+    connect(qApp, &QCoreApplication::aboutToQuit, [=]()
+            { writeInventoryToFile(inventory); });
 }
 
-// void MainScreen::showMain()
-// {
-//     stackedWidget->setCurrentIndex(0);
-// }
+void MainScreen::writeInventoryToFile(Inventory *inventory)
+{
+    // Open the file for writing
+    std::ofstream file("inventory.txt");
+
+    // Write the egg count, coin count, and vector of pets to the file
+    file << inventory->user_list.size() << std::endl;
+    file << inventory->getEggCount() << std::endl;
+    file << inventory->getCoinCount() << std::endl;
+    for (auto &pet : inventory->user_list)
+    {
+        file << pet.getId() << std::endl;
+    }
+
+    // Close the file
+    file.close();
+}
+
+void MainScreen::loadInventoryFromFile(Inventory *inventory)
+{
+    std::ifstream file("inventory.txt");
+    if (file.is_open())
+    {
+        int pet_count, egg_count, coin_count, pet_id;
+        file >> pet_count >> egg_count >> coin_count;
+        for (int i = 0; i < pet_count; i++)
+        {
+            file >> pet_id;
+            inventory->user_list.push_back(pets[pet_id]);
+        }
+        inventory->setEggCount(egg_count);
+        inventory->setCoinCount(coin_count);
+        file.close();
+    }
+}

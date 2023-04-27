@@ -7,8 +7,11 @@
 #include <QApplication>
 #include <QVBoxLayout>
 #include <QWidget>
-
+#include <QCoreApplication>
+#include <QFile>
 #include <QLabel>
+
+#include <fstream>
 
 #include "PetsWidget.hpp"
 #include "PetScreen.hpp"
@@ -32,13 +35,17 @@ public:
     // void returnToMain();
 
 private:
-
+    std::vector<Pet> pets;
+    std::vector<Pet> user_list;
     QStackedWidget *stackedWidget;
     Inventory *inventory;
     Menu *menu;
     Purchase *screen1;
     Crack *screen2;
     PetScreen *screen3;
+
+    void writeInventoryToFile(Inventory* inventory);
+    void loadInventoryFromFile(Inventory *inventory);
 };
 
 #endif // MAINSCREEN_HPP
