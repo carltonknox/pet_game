@@ -5,8 +5,10 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QScroller>
+#include <vector>
+#include <QDebug>
 
-PetInfoWidget::PetInfoWidget(QWidget*parent):QScrollArea(parent),pet(){
+PetInfoWidget::PetInfoWidget(QWidget*parent, Inventory* inventory):QScrollArea(parent),pet(), inventory(inventory){
     // setFixedSize(300, 400);
     setStyleSheet("background-color: white; border: 2px solid black;");
     // Create labels for the pet's name, description, and rarity
@@ -49,7 +51,7 @@ PetInfoWidget::PetInfoWidget(QWidget*parent):QScrollArea(parent),pet(){
     layout->addWidget(rarityLabel);
 
     setLayout(layout);
-    setPet(pet);
+    setPet(pet,0);
     this->hide();
     QTimer* timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [=]() {
@@ -66,8 +68,9 @@ PetInfoWidget::PetInfoWidget(QWidget*parent):QScrollArea(parent),pet(){
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 }
-void PetInfoWidget::setPet(const Pet& pet){
+void PetInfoWidget::setPet(const Pet& pet,unsigned index){
     this->pet=pet;
+    this->index=index;
 
     nameLabel->setText(QString::fromStdString(pet.getName()));
     descriptionLabel->setText(QString::fromStdString(pet.getDescription()));
@@ -76,5 +79,11 @@ void PetInfoWidget::setPet(const Pet& pet){
     spriteView->scene()->addPixmap(pet.getSprite().scaled(100, 100, Qt::KeepAspectRatio));
 }
 void PetInfoWidget::sell(){
+
+    this->hide();
+
+    inventory->mutex.lockForWrite();
+    inventory->user_list.erase(inventory->user_list.begin()+index);
+    inventory->mutex.unlock();
 
 }

@@ -32,7 +32,7 @@ private:
     QGridLayout* layout;
     
 public slots:
-    void showPetInfo(const Pet& pet);
+    void showPetInfo(const Pet& pet,unsigned index);
 
 };
 
