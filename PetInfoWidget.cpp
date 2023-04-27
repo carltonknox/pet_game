@@ -71,12 +71,14 @@ PetInfoWidget::PetInfoWidget(QWidget*parent, Inventory* inventory):QScrollArea(p
 void PetInfoWidget::setPet(const Pet& pet,unsigned index){
     this->pet=pet;
     this->index=index;
+    price = pet.getRarity()*pet.getRarity()/3.5 + pet.getRarity()*2+2;
 
     nameLabel->setText(QString::fromStdString(pet.getName()));
     descriptionLabel->setText(QString::fromStdString(pet.getDescription()));
     rarityLabel->setText(QString("Rarity: %1").arg(pet.getRarity()));
     spriteView->setScene(new QGraphicsScene());
     spriteView->scene()->addPixmap(pet.getSprite().scaled(100, 100, Qt::KeepAspectRatio));
+
 }
 void PetInfoWidget::sell(){
 
@@ -85,5 +87,7 @@ void PetInfoWidget::sell(){
     inventory->mutex.lockForWrite();
     inventory->user_list.erase(inventory->user_list.begin()+index);
     inventory->mutex.unlock();
+
+    inventory->setCoinCount(inventory->getCoinCount() + price);
 
 }

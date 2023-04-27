@@ -22,5 +22,6 @@ private:
     QGraphicsView *spriteView;
     void sell();//sell current pet
     Inventory* inventory;
+    unsigned price;
 };
 #endif
