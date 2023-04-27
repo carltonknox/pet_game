@@ -50,3 +50,4 @@ Makefile.Release
 debug/
 release/
 moc_*.*
+inventory.txt
