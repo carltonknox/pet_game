@@ -26,37 +26,6 @@ int last_touch_timestamp;
 int got_pid;
 
 
-
-
-
-
-int get_last_touch_timestamp(void) {
-    struct file *file;
-    struct input_event event;
-    file = filp_open("/dev/input/event0", O_RDONLY, 0);
-    if (IS_ERR(file)) {
-        printk(KERN_ALERT "Failed to open /dev/input/event0\n");
-        return -1;
-    }
-
-    
-    if (vfs_read(file, (void*)(&event), sizeof(event), &file->f_pos) == sizeof(event)) {
-        if (event.type == EV_SYN) {
-            // This is a synchronization event, which indicates the end of an event sequence
-            printk(KERN_INFO "Last input received at time: %ld.%06ld\n", event.__sec, event.__usec);
-            
-
-        }
-    }
-
-    filp_close(file, NULL);
-    return 0;
-}
-
-
-
-
-
 static struct task_struct *mythread;
 static char *argv[] = { "/root/pet_game_screensaver", NULL };
 static pid_t screensaver_pid;

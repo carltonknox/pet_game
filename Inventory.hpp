@@ -4,6 +4,9 @@
 #include <QObject>
 #include <iostream>
 #include "Pet.hpp"
+#include <QReadWriteLock>
+
+
 
 class Inventory : public QObject
 {
@@ -17,6 +20,7 @@ public:
     int removeEgg();
     void addCoin(int count = 1);
     int removeCoin();
+    QReadWriteLock mutex;
 
     void setEggCount(int egg);
     void setCoinCount(int coin);

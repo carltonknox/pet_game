@@ -43,13 +43,15 @@ MainScreen::MainScreen(QWidget *parent)
     // create a timer to update the pet sprites
     QTimer *sprite_timer = new QTimer(this);
     connect(sprite_timer, &QTimer::timeout, [=]
-            {
-                for (auto &pet : inventory->user_list)
-                {
-                    pet.updateSprite();
-                }
-                // std::cout << "timer connect" << std::endl;
-            });
+    {
+        inventory->mutex.lockForRead();
+        for (auto& pet : inventory->user_list) 
+        {
+            pet.updateSprite();
+        }
+        inventory->mutex.unlock();
+        // std::cout << "timer connect" << std::endl;
+    });
     sprite_timer->start(500);
 
     stackedWidget->show();

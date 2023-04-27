@@ -28,9 +28,11 @@ PetsWidget::PetsWidget(QWidget* parent, Inventory* inventory)
 void PetsWidget::paintEvent(QPaintEvent* event){
     (void)event;
     QPainter painter(this);
+    inventory->mutex.lockForRead();
     for (auto& pet : inventory->user_list) {
         painter.drawPixmap(pet.x, pet.y, pet.getSprite());
     }
+    inventory->mutex.unlock();
 }
 void PetsWidget::updatePets(){
     // for (auto& pet : inventory->user_list) {
@@ -39,6 +41,7 @@ void PetsWidget::updatePets(){
     update();
 }
 void PetsWidget::bounceImages(){
+    inventory->mutex.lockForRead();
     for (auto& pet : inventory->user_list) {
         QRect visibleRect = pet.getVisibleRect();
         
@@ -65,13 +68,18 @@ void PetsWidget::bounceImages(){
 
         
     }
+    inventory->mutex.unlock();
     //redraw
     update();
 }
 void PetsWidget::addPet(const Pet& pet){
     //add pet to pets vector, and do other stuff
+    inventory->mutex.lockForWrite();
     inventory->user_list.push_back(pet);
+    inventory->mutex.unlock();
 }
 void PetsWidget::removePet(std::vector<Pet>::iterator pid){
+    inventory->mutex.lockForWrite();
     inventory->user_list.erase(pid);
+    inventory->mutex.unlock();
 }

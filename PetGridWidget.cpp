@@ -10,7 +10,7 @@
 #define ICON_SIZE 100
 // #define GRID_LENGTH ((width()>0)?width()/ICON_SIZE:4)
 #define GRID_LENGTH 4
-PetGridWidget::PetGridWidget(QWidget *parent, Inventory *inventory) : QScrollArea(parent), inventory(inventory), spriteLabels(), petInfo(this)
+PetGridWidget::PetGridWidget(QWidget *parent, Inventory *inventory) : QScrollArea(parent), inventory(inventory), spriteLabels(), petInfo(this,inventory)
 {
     QScroller::grabGesture(this, QScroller::TouchGesture);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -39,6 +39,7 @@ PetGridWidget::PetGridWidget(QWidget *parent, Inventory *inventory) : QScrollAre
 void PetGridWidget::updatePets()
 {
     // Update the sprite labels and add/remove sprite labels from the grid layout
+    inventory->mutex.lockForRead();
     int numPets = inventory->user_list.size();
     int numSpriteLabels = spriteLabels.size();
 
@@ -65,10 +66,11 @@ void PetGridWidget::updatePets()
         if(numPets!=numSpriteLabels){
             layout->addWidget(spriteLabels[i], i / GRID_LENGTH, i % GRID_LENGTH);
             QObject::connect(spriteLabels[i], &PressLabel::clicked, this, [this, i]() {
-                showPetInfo(inventory->user_list[i]);
+                showPetInfo(inventory->user_list[i],i);
             });
         }
     }
+    inventory->mutex.unlock();
 
     for (int i = numPets; i < numSpriteLabels; i++)
     {
@@ -80,9 +82,9 @@ void PetGridWidget::updatePets()
 
     update();
 }
-void PetGridWidget::showPetInfo(const Pet& pet)
+void PetGridWidget::showPetInfo(const Pet& pet,unsigned i)
 {
-    petInfo.setPet(pet);
+    petInfo.setPet(pet,i);
     // Show the pet info widget
     petInfo.show();
 }
