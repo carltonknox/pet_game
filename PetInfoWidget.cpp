@@ -28,14 +28,14 @@ PetInfoWidget::PetInfoWidget(QWidget*parent, Inventory* inventory):QScrollArea(p
                                "    border: none;"
                                "}";
 
-    QPushButton* sellButton = new QPushButton(QIcon(":sprites/Sell.png"), "", this);
+    QPushButton* sellButton = new QPushButton(QIcon(":sprites/sell.png"), "", this);
     connect(sellButton, &QPushButton::clicked, this, &PetInfoWidget::sell);
     sellButton->setStyleSheet(buttonStyleSheet);
-    sellButton->move(400,10);
+    sellButton->move(400,0);
 
     // Set button size to match the size of the sprites
-    QSize ret_sizeButton(50, 50);
-    QSize ret_sizeIcon(100, 80);
+    QSize ret_sizeButton(60, 50);
+    QSize ret_sizeIcon(110, 80);
 
     sellButton->setIconSize(ret_sizeIcon);
     sellButton->setFixedSize(ret_sizeButton);
