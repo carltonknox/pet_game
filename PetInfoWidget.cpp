@@ -40,6 +40,10 @@ PetInfoWidget::PetInfoWidget(QWidget*parent, Inventory* inventory):QScrollArea(p
     sellButton->setIconSize(ret_sizeIcon);
     sellButton->setFixedSize(ret_sizeButton);
 
+    priceLabel = new QLabel(this);
+    priceLabel->setText("Sell Price: ");
+    priceLabel->move(360,50);
+
 
 
     // Add the labels and sprite view to the layout
@@ -72,6 +76,7 @@ void PetInfoWidget::setPet(const Pet& pet,unsigned index){
     this->pet=pet;
     this->index=index;
     price = pet.getRarity()*pet.getRarity()/3.5 + pet.getRarity()*2+2;
+    priceLabel->setText(QString("Sell Price: %1").arg(price));
 
     nameLabel->setText(QString::fromStdString(pet.getName()));
     descriptionLabel->setText(QString::fromStdString(pet.getDescription()));
