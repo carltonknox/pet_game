@@ -6,7 +6,7 @@ MainScreen::MainScreen(QWidget *parent)
 {
     pets = generatePets();
     user_list = {};
-    inventory = new Inventory(this, 10, 100, user_list);
+    inventory = new Inventory(this, 5, 7, user_list);
 
     // check if it's the first time program started
     loadInventoryFromFile(inventory);

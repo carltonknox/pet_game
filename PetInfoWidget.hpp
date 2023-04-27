@@ -23,5 +23,6 @@ private:
     void sell();//sell current pet
     Inventory* inventory;
     unsigned price;
+    QLabel* priceLabel;
 };
 #endif
