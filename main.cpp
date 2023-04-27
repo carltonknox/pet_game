@@ -11,21 +11,29 @@
 #include "Purchase.hpp"
 #include "Menu.hpp"
 #include <QStackedWidget>
+#include <QDebug>
+
+// Create main window
+MainScreen *p;
+
+void signalHandler(int sig)
+{
+    p->writeInventoryToFile(sig);
+}
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-
-    // Create main window
     MainScreen mainWindow;
+    p = &mainWindow;
+
+    signal(SIGTERM, signalHandler);
+    signal(SIGINT, signalHandler);
 
     mainWindow.setFixedSize(480, 272);
-    // SuperBackgroundPainter blah(":sprites/_background.png");
-    // mainWindow.setStyleSheet("background-image: url(:sprites/_background.png);");
-    // mainWindow.installEventFiler(blah);
     mainWindow.setStyleSheet("border:none;");
-    mainWindow.setContentsMargins(0,0,0,0);
+    mainWindow.setContentsMargins(0, 0, 0, 0);
     // Show main window
     mainWindow.show();
 
