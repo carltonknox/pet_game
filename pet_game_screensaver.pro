@@ -1,6 +1,6 @@
 QT += widgets
 
-SOURCES = main_saver.cpp Pet.cpp PetsWidget.cpp
+SOURCES = main_saver.cpp Pet.cpp PetsWidget.cpp Inventory.cpp
 
 # install
 target.path = .
@@ -11,4 +11,5 @@ RESOURCES += \
 
 HEADERS += \
     Pet.hpp \
-    PetsWidget.hpp
+    PetsWidget.hpp \
+    Inventory.hpp
