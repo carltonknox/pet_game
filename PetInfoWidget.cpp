@@ -42,7 +42,7 @@ PetInfoWidget::PetInfoWidget(QWidget*parent, Inventory* inventory):QScrollArea(p
 
     priceLabel = new QLabel(this);
     priceLabel->setText("Sell Price: ");
-    priceLabel->move(360,50);
+    priceLabel->move(330,50);
 
 
 
