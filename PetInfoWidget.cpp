@@ -28,7 +28,7 @@ PetInfoWidget::PetInfoWidget(QWidget*parent, Inventory* inventory):QScrollArea(p
                                "    border: none;"
                                "}";
 
-    QPushButton* sellButton = new QPushButton(QIcon(":sprites/Ret.png"), "", this);
+    QPushButton* sellButton = new QPushButton(QIcon(":sprites/Sell.png"), "", this);
     connect(sellButton, &QPushButton::clicked, this, &PetInfoWidget::sell);
     sellButton->setStyleSheet(buttonStyleSheet);
     sellButton->move(400,10);
