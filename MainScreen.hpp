@@ -10,7 +10,7 @@
 #include <QCoreApplication>
 #include <QFile>
 #include <QLabel>
-
+#include <signal.h>
 #include <fstream>
 
 #include "PetsWidget.hpp"
@@ -26,7 +26,7 @@ class MainScreen : public QWidget
     Q_OBJECT
 public:
     MainScreen(QWidget *parent = nullptr);
-
+    void writeInventoryToFile(int sig);
 // public slots:
 //     void showMain();
 
@@ -44,7 +44,7 @@ private:
     Crack *screen2;
     PetScreen *screen3;
 
-    void writeInventoryToFile(Inventory* inventory);
+    
     void loadInventoryFromFile(Inventory *inventory);
 };
 

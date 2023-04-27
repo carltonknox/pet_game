@@ -54,12 +54,13 @@ MainScreen::MainScreen(QWidget *parent)
 
     stackedWidget->show();
 
-    // Create a signal handler for when the program is about to quit
-    connect(qApp, &QCoreApplication::aboutToQuit, [=]()
-            { writeInventoryToFile(inventory); });
+    // // Create a signal handler for when the program is about to quit
+    // connect(qApp, &QCoreApplication::aboutToQuit, [=]()
+    //         { writeInventoryToFile(inventory); });
+
 }
 
-void MainScreen::writeInventoryToFile(Inventory *inventory)
+void MainScreen::writeInventoryToFile(int sig)
 {
     // Open the file for writing
     std::ofstream file("inventory.txt");
@@ -75,7 +76,13 @@ void MainScreen::writeInventoryToFile(Inventory *inventory)
 
     // Close the file
     file.close();
+    exit(sig);
 }
+
+// void MainScreen::signalHandler()
+// {
+//     writeInventoryToFile(sig)
+// }
 
 void MainScreen::loadInventoryFromFile(Inventory *inventory)
 {
@@ -93,4 +100,5 @@ void MainScreen::loadInventoryFromFile(Inventory *inventory)
         inventory->setCoinCount(coin_count);
         file.close();
     }
+
 }
