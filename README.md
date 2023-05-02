@@ -35,3 +35,6 @@ To stop the kernel module, run
 ```
 rmmod ./kscreensaverlauncher.ko
 ```
+
+
+Art by Raina Yin.
