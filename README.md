@@ -2,6 +2,8 @@
 ### A Qt-based pet game and screensaver written in C++, along with a linux kernel module, targeting the Beagleboard BeagleBone Black
 Final Project for EC535: Embedded Systems, by Carlton Knox and Raina Yin
 
+For more information, check out our report: [EC535_pet_game.pdf](./EC535_pet_game.pdf)
+
 Prerequisites:
 * c/c++ compilers for your target system
 * qmake
