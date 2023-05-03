@@ -24,11 +24,11 @@ and then build the screensaver kernel module with:
 make -C kernel_module
 ```
 To run the screensaver, copy `./kernelmodule/kscreensaverlauncher.ko` and `./pet_game_screensaver` to your target linux system, then run:
-`
+```
 chmod +x ./pet_game_screensaver
 mknod /dev/kscreensaverlauncher c 61 0
 insmod ./kscreensaverlauncher.ko
-`
+```
 
 This screensaver is assuming that you have an input device corresponding to `/dev/input/event0`. After 15 seconds of no activity, the screensaver will launch.
 To stop the kernel module, run
